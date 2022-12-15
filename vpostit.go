@@ -1,6 +1,9 @@
 package vpostit
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 // Note represents an online post-it
 type Note struct {
@@ -9,10 +12,11 @@ type Note struct {
 	Info
 	ID string //a unique identifier for your note
 }
+type Time struct{}
 
 type Info struct {
-	MadeDay    string //date of the birthday of your note
-	LastChange string //last change of your note
+	MadeDay    time.Time //date of the birthday of your note
+	LastChange time.Time //last change of your note
 }
 
 type Repository interface {
@@ -20,4 +24,12 @@ type Repository interface {
 	Update(context.Context, *Note) error
 	FindByID(context.Context, NoteID) (_ Note, found bool, _ error)
 	DeletByID(context.Context, NoteID) error
+}
+
+func (n Note) Create(context.Context, *Note) error {
+	return nil
+}
+
+func (n Note) Update(context.Context, *Note) error {
+	return nil
 }
