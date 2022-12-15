@@ -9,6 +9,6 @@ type Note struct {
 }
 
 type Info struct {
-	MadeDay    string
-	LastChange string
+	MadeDay    string //date of the birthday of your note
+	LastChange string //last change of your note
 }
