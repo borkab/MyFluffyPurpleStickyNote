@@ -12,7 +12,6 @@ type Note struct {
 	Info
 	ID string //a unique identifier for your note
 }
-type Time struct{}
 
 type Info struct {
 	MadeDay    time.Time //date of the birthday of your note
@@ -25,6 +24,7 @@ type Repository interface {
 	// FindByID(context.Context, NoteID) (_ Note, found bool, _ error)
 	// DeletByID(context.Context, NoteID) error
 }
+type InMemoryNoteRepository struct{}
 
 func Create(context.Context, *Note) error {
 	return nil
