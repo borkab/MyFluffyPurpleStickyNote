@@ -1,12 +1,13 @@
 package vpostit
 
 import (
+	"context"
 	"testing"
 	"time"
 )
 
-func Test?? (t *testing.T) {
-	newNote := Note{
+func TestCreate(t *testing.T) {
+	newNote := &Note{
 		Title: "Shopping list",
 		Body:  "milk, coffee, pretzels",
 		Info: Info{
@@ -15,5 +16,10 @@ func Test?? (t *testing.T) {
 		},
 		ID: "fluff.0001",
 	}
+	ctx := context.Background()
+	got := Create(ctx, newNote)
 
+	if got != nil {
+		t.Fatal("couldn't create new note")
+	}
 }

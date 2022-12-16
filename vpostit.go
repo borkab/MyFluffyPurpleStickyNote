@@ -22,11 +22,11 @@ type Info struct {
 type Repository interface {
 	Create(context.Context, *Note) error
 	Update(context.Context, *Note) error
-	FindByID(context.Context, NoteID) (_ Note, found bool, _ error)
-	DeletByID(context.Context, NoteID) error
+	// FindByID(context.Context, NoteID) (_ Note, found bool, _ error)
+	// DeletByID(context.Context, NoteID) error
 }
 
-func (n Note) Create(context.Context, *Note) error {
+func Create(context.Context, *Note) error {
 	return nil
 }
 
