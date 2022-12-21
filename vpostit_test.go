@@ -16,8 +16,9 @@ func TestCreate(t *testing.T) {
 		},
 		ID: "fluff.0001",
 	}
+	memo := InMemoryNoteRepository{}
 	ctx := context.Background()
-	got := Create(ctx, newNote)
+	got := memo.Create(ctx, newNote)
 
 	if got != nil {
 		t.Fatal("couldn't create new note")

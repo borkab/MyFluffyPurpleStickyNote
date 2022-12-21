@@ -7,10 +7,10 @@ import (
 
 // Note represents an online post-it
 type Note struct {
-	Title string //title of your note
-	Body  string //your sticky note
-	Info
-	ID string //a unique identifier for your note
+	Title string `json:"TITLE"` //title of your note
+	Body  string `json:"BODY"`  //your sticky note
+	Info  `json:"INFO"`
+	ID    string `json:"ID"` //a unique identifier for your note
 }
 
 type Info struct {
@@ -24,12 +24,15 @@ type Repository interface {
 	// FindByID(context.Context, NoteID) (_ Note, found bool, _ error)
 	// DeletByID(context.Context, NoteID) error
 }
-type InMemoryNoteRepository struct{}
 
-func Create(context.Context, *Note) error {
+type InMemoryNoteRepository struct {
+	Service Repository
+}
+
+func (in InMemoryNoteRepository) Create(context.Context, *Note) error {
 	return nil
 }
 
-func (n Note) Update(context.Context, *Note) error {
+func (in InMemoryNoteRepository) Update(context.Context, *Note) error {
 	return nil
 }
