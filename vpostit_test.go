@@ -24,3 +24,20 @@ func TestCreate(t *testing.T) {
 		t.Fatal("couldn't create new note")
 	}
 }
+
+func TestUpdate(t *testing.T) {
+	updateNote := &Note{
+		Title: "My Today's Shopping list",
+		Body:  "milk, coffee, bagels and more",
+		Info: Info{
+			LastChange: time.Now(),
+		},
+	}
+	memo := InMemoryNoteRepository{}
+	ctx := context.Background()
+	got := memo.Update(ctx, updateNote)
+
+	if got != nil {
+		t.Fatal("couldn't create new note")
+	}
+}
