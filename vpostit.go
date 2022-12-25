@@ -18,10 +18,12 @@ type Info struct {
 	LastChange time.Time //last change of your note
 }
 
+// declaring the repository interface allows us to easily
+// swap out the actual implementation, enforcing loose coupling.
 type Repository interface {
 	Create(context.Context, *Note) error
 	Update(context.Context, *Note) error
-	// FindByID(context.Context, NoteID) (_ Note, found bool, _ error)
+	FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error)
 	// DeletByID(context.Context, NoteID) error
 }
 
@@ -35,4 +37,8 @@ func (in InMemoryNoteRepository) Create(context.Context, *Note) error {
 
 func (in InMemoryNoteRepository) Update(context.Context, *Note) error {
 	return nil
+}
+
+func (in InMemoryNoteRepository) FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error) {
+	//what comes here?
 }
