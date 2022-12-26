@@ -3,7 +3,6 @@ package vpostit
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 )
 
@@ -50,12 +49,19 @@ func (oldNote *Note) Update(ctx context.Context, update Note) error {
 	return nil
 }
 
-func (in *InMemoryNoteRepository) FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error) {
-	//what comes here?
-	if !found {
-		fmt.Println(errors.New("oh fluff, couldn't find your note"))
+func (in *InMemoryNoteRepository) FindByID(context.Context, string, []Note) (ID string, found bool, err error) {
+	found = false
+	for _, note := range MyFluffyNotes {
+		if note.ID == ID {
+			found = true
+			break
+		}
 	}
-	return
+
+	if !found {
+		err = errors.New("oh fluff, couldn't find your note")
+	}
+	return ID, found, err
 }
 
 /*

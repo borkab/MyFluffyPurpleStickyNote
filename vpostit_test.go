@@ -54,25 +54,31 @@ func TestUpdate(t *testing.T) {
 	}
 }
 
-/*
 func TestFoundByID(t *testing.T) {
-	note := &Note{
-		Title: "My Today's Shopping list",
-		Body:  "milk, coffee, bagels and more",
-		Info: Info{
-			UpdateAt: time.Now(),
+	MyFluffyNotes := []Note{
+		Note{
+			Title: "My Today's Shopping list",
+			Body:  "milk, coffee, bagels and more",
+			ID:    "fluff.0001",
 		},
-		ID: "fluff.0001",
+		Note{
+			Title: "My Today's TODO list",
+			Body:  "go shopping, do housework, learn GO",
+			ID:    "fluff.0002",
+		},
+		Note{
+			Title: "My Today's Housework list",
+			Body:  "make laundry, cook lunch, pick up toys, hoover everywhere",
+			ID:    "fluff.0003",
+		},
 	}
-	var ID *Note
-	ID = note.ID
-	//how should I make frome string a *Note type,
-	// that it accepts as a parameter?
+
+	ID := "fluff.0002"
 
 	memo := InMemoryNoteRepository{}
 	ctx := context.Background()
 
-	_, found, err := memo.FindByID(ctx, ID)
+	_, found, err := memo.FindByID(ctx, ID, MyFluffyNotes)
 
 	if found != true {
 		t.Fatal("couldn't find this note")
@@ -82,4 +88,3 @@ func TestFoundByID(t *testing.T) {
 		t.Fatal("")
 	}
 }
-*/
