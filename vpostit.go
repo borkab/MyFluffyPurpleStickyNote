@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+var MyFluffyNotes []*Note
+
 // Note represents an online post-it
 type Note struct {
 	Title string `json:"TITLE"` //title of your note
@@ -33,11 +35,18 @@ type InMemoryNoteRepository struct {
 	Service Repository
 }
 
-func (in InMemoryNoteRepository) Create(context.Context, *Note) error {
+func (in *InMemoryNoteRepository) Create(context.Context, *Note, []*Note) error {
+	context.TODO()
+
+	NewNote := &Note{}
+	MyFluffyNotes = append(MyFluffyNotes, NewNote)
+
 	return nil
 }
 
-func (in InMemoryNoteRepository) Update(context.Context, *Note) error {
+func (oldNote *Note) Update(ctx context.Context, update Note) error {
+	context.TODO()
+	*oldNote = update
 	return nil
 }
 
@@ -49,6 +58,7 @@ func (in *InMemoryNoteRepository) FindByID(ctx context.Context, ID *Note) (_ Not
 	return
 }
 
+/*
 func (in *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
 	//your code
 	mynote := &Note{}
@@ -59,3 +69,4 @@ func (in *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
 	//cannot use ID (variable of type string) as *Note value in argument to in.FindByID___compiler
 	return nil
 }
+*/
