@@ -2,6 +2,8 @@ package vpostit
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"time"
 )
 
@@ -14,8 +16,8 @@ type Note struct {
 }
 
 type Info struct {
-	MadeDay    time.Time //date of the birthday of your note
-	LastChange time.Time //last change of your note
+	MadeDay  time.Time //date of the birthday of your note
+	UpdateAt time.Time //last change of your note
 }
 
 // declaring the repository interface allows us to easily
@@ -24,7 +26,7 @@ type Repository interface {
 	Create(context.Context, *Note) error
 	Update(context.Context, *Note) error
 	FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error)
-	// DeletByID(context.Context, NoteID) error
+	DeleteByID(ctx context.Context, ID string) error
 }
 
 type InMemoryNoteRepository struct {
@@ -39,6 +41,21 @@ func (in InMemoryNoteRepository) Update(context.Context, *Note) error {
 	return nil
 }
 
-func (in InMemoryNoteRepository) FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error) {
+func (in *InMemoryNoteRepository) FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error) {
 	//what comes here?
+	if !found {
+		fmt.Println(errors.New("oh fluff, couldn't find your note"))
+	}
+	return
+}
+
+func (in *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
+	//your code
+	mynote := &Note{}
+	ctx := context.Background()
+
+	ID := mynote.ID
+	in.FindByID(ctx, ID) //how the hell could I convert string to *Note??
+	//cannot use ID (variable of type string) as *Note value in argument to in.FindByID___compiler
+	return nil
 }

@@ -11,8 +11,8 @@ func TestCreate(t *testing.T) {
 		Title: "Shopping list",
 		Body:  "milk, coffee, pretzels",
 		Info: Info{
-			MadeDay:    time.Now(),
-			LastChange: time.Now(),
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
 		},
 		ID: "fluff.0001",
 	}
@@ -30,7 +30,7 @@ func TestUpdate(t *testing.T) {
 		Title: "My Today's Shopping list",
 		Body:  "milk, coffee, bagels and more",
 		Info: Info{
-			LastChange: time.Now(),
+			UpdateAt: time.Now(),
 		},
 	}
 	memo := InMemoryNoteRepository{}
@@ -47,7 +47,7 @@ func TestFoundByID(t *testing.T) {
 		Title: "My Today's Shopping list",
 		Body:  "milk, coffee, bagels and more",
 		Info: Info{
-			LastChange: time.Now(),
+			UpdateAt: time.Now(),
 		},
 		ID: "fluff.0001",
 	}
