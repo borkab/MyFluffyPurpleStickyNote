@@ -2,7 +2,6 @@ package vpostit
 
 import (
 	"context"
-	"errors"
 	"time"
 )
 
@@ -38,13 +37,13 @@ type InMemoryNoteRepository struct {
 	Service Repository
 }
 
-func (in *InMemoryNoteRepository) Create(context.Context, *Note, map[Note]*Note) error {
+func (in *InMemoryNoteRepository) Create(context.Context, *Note, []MyNotes) error {
 	//context.TODO()
 
 	NewNote := &Note{}
 	ID := NewNote.ID
 
-	var n MyNotes
+	var n = make(MyNotes)
 
 	n[ID] = NewNote
 
@@ -59,6 +58,7 @@ func (oldNote *Note) Update(ctx context.Context, update Note) error {
 	return nil
 }
 
+/*
 func (in *InMemoryNoteRepository) FindByID(context.Context, string, []*Note) (ID string, found bool, err error) {
 	found = false
 	for _, note := range MyFluffyNotes {
@@ -73,6 +73,7 @@ func (in *InMemoryNoteRepository) FindByID(context.Context, string, []*Note) (ID
 	}
 	return ID, found, err
 }
+*/
 
 /*
 func (in *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
