@@ -6,7 +6,11 @@ import (
 	"time"
 )
 
-var MyFluffyNotes []*Note
+// MyFluffyNotes holds all of my Notes in a slice of type MyNotes
+var MyFluffyNotes []MyNotes
+
+// MyNotes is a map of a *Note, for easier manipulating as search and delete by ID(key)
+type MyNotes map[string]*Note
 
 // Note represents an online post-it
 type Note struct {
@@ -34,11 +38,16 @@ type InMemoryNoteRepository struct {
 	Service Repository
 }
 
-func (in *InMemoryNoteRepository) Create(context.Context, *Note, []*Note) error {
-	context.TODO()
+func (in *InMemoryNoteRepository) Create(context.Context, *Note, map[Note]*Note) error {
+	//context.TODO()
 
 	NewNote := &Note{}
-	MyFluffyNotes = append(MyFluffyNotes, NewNote)
+	ID := NewNote.ID
+	MyNotes[ID] = *NewNote //invalid operation: MyNotes[Note.ID]
+	//(MyNotes is not a generic type)
+	N := MyNotes[ID] * NewNote
+
+	MyFluffyNotes = append(MyFluffyNotes, MyNotes)
 
 	return nil
 }
@@ -49,7 +58,7 @@ func (oldNote *Note) Update(ctx context.Context, update Note) error {
 	return nil
 }
 
-func (in *InMemoryNoteRepository) FindByID(context.Context, string, []Note) (ID string, found bool, err error) {
+func (in *InMemoryNoteRepository) FindByID(context.Context, string, []*Note) (ID string, found bool, err error) {
 	found = false
 	for _, note := range MyFluffyNotes {
 		if note.ID == ID {
@@ -68,11 +77,21 @@ func (in *InMemoryNoteRepository) FindByID(context.Context, string, []Note) (ID 
 func (in *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
 	//your code
 	mynote := &Note{}
-	ctx := context.Background()
+	ctx := context.TODO()
 
 	ID := mynote.ID
-	in.FindByID(ctx, ID) //how the hell could I convert string to *Note??
-	//cannot use ID (variable of type string) as *Note value in argument to in.FindByID___compiler
-	return nil
+	var err error
+	_, found, _ := in.FindByID(ctx, ID, MyFluffyNotes)
+	if !found {
+		err = errors.New("oh fluff, couldn't find your note")
+	} else {
+		for i := range MyFluffyNotes {
+			if MyFluffyNotes[i{ID}] == mynote.ID {
+				return i
+			}
+		}
+	}
+
+	return err
 }
 */

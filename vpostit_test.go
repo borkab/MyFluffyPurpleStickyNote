@@ -55,18 +55,18 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestFoundByID(t *testing.T) {
-	MyFluffyNotes := []Note{
-		Note{
+	MyFluffyNotes := []*Note{
+		&Note{
 			Title: "My Today's Shopping list",
 			Body:  "milk, coffee, bagels and more",
 			ID:    "fluff.0001",
 		},
-		Note{
+		&Note{
 			Title: "My Today's TODO list",
 			Body:  "go shopping, do housework, learn GO",
 			ID:    "fluff.0002",
 		},
-		Note{
+		&Note{
 			Title: "My Today's Housework list",
 			Body:  "make laundry, cook lunch, pick up toys, hoover everywhere",
 			ID:    "fluff.0003",
