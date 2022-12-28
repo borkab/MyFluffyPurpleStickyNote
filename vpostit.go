@@ -43,11 +43,12 @@ func (in *InMemoryNoteRepository) Create(context.Context, *Note, map[Note]*Note)
 
 	NewNote := &Note{}
 	ID := NewNote.ID
-	MyNotes[ID] = *NewNote //invalid operation: MyNotes[Note.ID]
-	//(MyNotes is not a generic type)
-	N := MyNotes[ID] * NewNote
 
-	MyFluffyNotes = append(MyFluffyNotes, MyNotes)
+	var n MyNotes
+
+	n[ID] = NewNote
+
+	MyFluffyNotes = append(MyFluffyNotes, n)
 
 	return nil
 }
