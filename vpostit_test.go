@@ -8,11 +8,10 @@ import (
 
 func TestInMemoryNoteRepository_smoke(t *testing.T) {
 
-	type InMemoryNoteRepository struct{
-		Create(context.Context, *Note)error
+	type InMemoryNoteRepository struct {
+		Service Repository
 	}
 
-	repo := InMemoryNoteRepository{}
 	Note1 := &Note{
 		Title: "Mornings TODO",
 		Body:  "make laundry, cook lunch, clean dining table, wash dishes",
@@ -31,12 +30,15 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 		},
 		ID: "",
 	}
-	ctx := context.Context()
-	repo.Create(ctx, Note1)
-	repo.Create(ctx, Note2)
 
-	ID1:= Note1.ID
-	ID2:= Note2.ID
+	repo := InMemoryNoteRepository{}
+	ctx := context.Background()
+
+	repo.Create(ctx, Note1) //VSCode error message: repo.Create undefined (type InMemoryNoteRepository has no field or method Create)
+	repo.Create(ctx, Note2) //but why the hell? in func TestCreate I wrote the same, and there is no error
+
+	ID1 := Note1.ID
+	ID2 := Note2.ID
 	repo.FindByID(ctx, ID1)
 	repo.FindByID(ctx, ID2)
 }
@@ -51,15 +53,10 @@ func TestCreate(t *testing.T) {
 		},
 		ID: "fluff.0001",
 	}
-	var n = make(MyNotes)
 
-	n[newNote.ID] = newNote
-
-	MyFluffyNotes = append(MyFluffyNotes, n)
-
-	memo := InMemoryNoteRepository{}
+	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
-	got := memo.Create(ctx, newNote, MyFluffyNotes)
+	got := repo.Create(ctx, newNote)
 
 	if got != nil {
 		t.Fatal("couldn't create new note")

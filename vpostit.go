@@ -27,19 +27,17 @@ type Info struct {
 // declaring the repository interface allows us to easily
 // swap out the actual implementation, enforcing loose coupling.
 type Repository interface {
-	Create(context.Context, *Note) error
+	Create(context.Context, *Note, []MyNotes) error
 	Update(context.Context, *Note) error
 	FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error)
 	DeleteByID(ctx context.Context, ID string) error
 }
 
-/*
 type InMemoryNoteRepository struct {
 	Service Repository
 }
-*/
 
-func (repo *InMemoryNoteRepository) Create(context.Context, *Note, []MyNotes) error {
+func (repo *InMemoryNoteRepository) Create(context.Context, *Note) error {
 	//context.TODO()
 
 	NewNote := &Note{}
