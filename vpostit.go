@@ -33,11 +33,13 @@ type Repository interface {
 	DeleteByID(ctx context.Context, ID string) error
 }
 
+/*
 type InMemoryNoteRepository struct {
 	Service Repository
 }
+*/
 
-func (in *InMemoryNoteRepository) Create(context.Context, *Note, []MyNotes) error {
+func (repo *InMemoryNoteRepository) Create(context.Context, *Note, []MyNotes) error {
 	//context.TODO()
 
 	NewNote := &Note{}

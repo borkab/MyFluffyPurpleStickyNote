@@ -6,6 +6,41 @@ import (
 	"time"
 )
 
+func TestInMemoryNoteRepository_smoke(t *testing.T) {
+
+	type InMemoryNoteRepository struct{
+		Create(context.Context, *Note)error
+	}
+
+	repo := InMemoryNoteRepository{}
+	Note1 := &Note{
+		Title: "Mornings TODO",
+		Body:  "make laundry, cook lunch, clean dining table, wash dishes",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+		ID: "",
+	}
+	Note2 := &Note{
+		Title: "Evenings TODO",
+		Body:  "pick up toys, pick up clothes, set dishwasher, take out trash",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+		ID: "",
+	}
+	ctx := context.Context()
+	repo.Create(ctx, Note1)
+	repo.Create(ctx, Note2)
+
+	ID1:= Note1.ID
+	ID2:= Note2.ID
+	repo.FindByID(ctx, ID1)
+	repo.FindByID(ctx, ID2)
+}
+
 func TestCreate(t *testing.T) {
 	newNote := &Note{
 		Title: "Shopping list",
