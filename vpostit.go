@@ -47,14 +47,14 @@ func (in *InMemoryNoteRepository) Create(context.Context, *Note, []MyNotes) erro
 
 	n[ID] = NewNote
 
-	MyFluffyNotes = append(MyFluffyNotes, n)
+	MyFluffyNotes = append(MyFluffyNotes, n) //here I give my map of the Note to the struct of all the Notes
 
 	return nil
 }
 
-func (oldNote *Note) Update(ctx context.Context, update Note) error {
-	context.TODO()
-	*oldNote = update
+func (oldNote *Note) Update(ctx context.Context, update *Note) error {
+	//context.TODO()
+	*oldNote = *update
 	return nil
 }
 
