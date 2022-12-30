@@ -8,11 +8,7 @@ import (
 
 func TestInMemoryNoteRepository_smoke(t *testing.T) {
 
-	type InMemoryNoteRepository struct {
-		Service Repository
-	}
-
-	Note1 := &Note{
+	Note1 := &Note{ ////VSCode error message: expected declaration, found Note1 (compile)
 		Title: "Mornings TODO",
 		Body:  "make laundry, cook lunch, clean dining table, wash dishes",
 		Info: Info{
@@ -21,6 +17,7 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 		},
 		ID: "",
 	}
+
 	Note2 := &Note{
 		Title: "Evenings TODO",
 		Body:  "pick up toys, pick up clothes, set dishwasher, take out trash",
@@ -34,8 +31,8 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
 
-	repo.Create(ctx, Note1) //VSCode error message: repo.Create undefined (type InMemoryNoteRepository has no field or method Create)
-	repo.Create(ctx, Note2) //but why the hell? in func TestCreate I wrote the same, and there is no error
+	repo.Create(ctx, Note1)
+	repo.Create(ctx, Note2)
 
 	ID1 := Note1.ID
 	ID2 := Note2.ID
@@ -56,6 +53,7 @@ func TestCreate(t *testing.T) {
 
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
+
 	got := repo.Create(ctx, newNote)
 
 	if got != nil {

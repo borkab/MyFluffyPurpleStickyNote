@@ -2,6 +2,7 @@ package vpostit
 
 import (
 	"context"
+	"errors"
 	"time"
 )
 
@@ -38,13 +39,11 @@ type InMemoryNoteRepository struct {
 }
 
 func (repo *InMemoryNoteRepository) Create(context.Context, *Note) error {
-	//context.TODO()
 
 	NewNote := &Note{}
 	ID := NewNote.ID
 
 	var n = make(MyNotes)
-
 	n[ID] = NewNote
 
 	MyFluffyNotes = append(MyFluffyNotes, n) //here I give my map of the Note to the struct of all the Notes
@@ -53,16 +52,16 @@ func (repo *InMemoryNoteRepository) Create(context.Context, *Note) error {
 }
 
 func (oldNote *Note) Update(ctx context.Context, update *Note) error {
-	//context.TODO()
+
 	*oldNote = *update
 	return nil
 }
 
-/*
-func (in *InMemoryNoteRepository) FindByID(context.Context, string, []*Note) (ID string, found bool, err error) {
+func (repo *InMemoryNoteRepository) FindByID(context.Context, string, MyNotes) (ID string, found bool, err error) {
 	found = false
 	for _, note := range MyFluffyNotes {
-		if note.ID == ID {
+		noteID := note[ID]
+		if noteID == ID {
 			found = true
 			break
 		}
@@ -73,7 +72,6 @@ func (in *InMemoryNoteRepository) FindByID(context.Context, string, []*Note) (ID
 	}
 	return ID, found, err
 }
-*/
 
 /*
 func (in *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
