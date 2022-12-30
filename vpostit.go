@@ -43,7 +43,7 @@ func (repo *InMemoryNoteRepository) Create(context.Context, *Note) error {
 	NewNote := &Note{}
 	ID := NewNote.ID
 
-	var n = make(MyNotes)
+	var n = make(MyNotes) //I give the Note to a map, where the key is the ID and the value is the Note struct
 	n[ID] = NewNote
 
 	MyFluffyNotes = append(MyFluffyNotes, n) //here I give my map of the Note to the struct of all the Notes
@@ -61,7 +61,7 @@ func (repo *InMemoryNoteRepository) FindByID(context.Context, string, MyNotes) (
 	found = false
 	for _, note := range MyFluffyNotes {
 		noteID := note[ID]
-		if noteID == ID {
+		if noteID == ID { //invalid operation: cannot compare noteID == ID (mismatched types *Note and string)
 			found = true
 			break
 		}

@@ -8,7 +8,7 @@ import (
 
 func TestInMemoryNoteRepository_smoke(t *testing.T) {
 
-	Note1 := &Note{ ////VSCode error message: expected declaration, found Note1 (compile)
+	Note1 := &Note{
 		Title: "Mornings TODO",
 		Body:  "make laundry, cook lunch, clean dining table, wash dishes",
 		Info: Info{
