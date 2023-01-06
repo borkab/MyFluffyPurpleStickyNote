@@ -57,7 +57,7 @@ func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *
 	return nil
 }
 
-func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID *Note) (foundedNote Note, found bool, err error) {
+func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (foundedNote Note, found bool, err error) {
 	found = false
 	for _, note := range MyFluffyNotes {
 		noteID := note[ID]
