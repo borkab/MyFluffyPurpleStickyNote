@@ -6,11 +6,8 @@ import (
 	"time"
 )
 
-// MyFluffyNotes holds all of my Notes in a slice of type MyNotes
-var MyFluffyNotes []MyNotes
-
 // MyNotes is a map of a *Note, for easier manipulating as search and delete by ID(key)
-type MyNotes map[string]*Note
+//type MyNotes map[string]*Note
 
 // Note represents an online post-it
 type Note struct {
@@ -35,7 +32,7 @@ type Repository interface {
 }
 
 type InMemoryNoteRepository struct {
-	Service Repository
+	MyNotes map[string]*Note
 }
 
 func (repo *InMemoryNoteRepository) Create(context.Context, *Note) error {
