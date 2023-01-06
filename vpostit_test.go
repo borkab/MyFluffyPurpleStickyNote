@@ -79,9 +79,9 @@ func TestUpdate(t *testing.T) {
 			UpdateAt: time.Now(),
 		},
 	}
-
+	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
-	got := oldNote.Update(ctx, update)
+	got := repo.Update(ctx, oldNote, update)
 
 	if got != nil {
 		t.Fatal("couldn't update note")
@@ -110,10 +110,10 @@ func TestFoundByID(t *testing.T) {
 
 	ID := "fluff.0002"
 
-	memo := InMemoryNoteRepository{}
+	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
 
-	_, found, err := memo.FindByID(ctx, ID, MyFluffyNotes)
+	foundedNote, found, err := repo.FindByID(ctx, ID, MyFluffyNotes)
 
 	if found != true {
 		t.Fatal("couldn't find this note")

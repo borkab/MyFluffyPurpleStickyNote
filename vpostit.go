@@ -51,13 +51,13 @@ func (repo *InMemoryNoteRepository) Create(context.Context, *Note) error {
 	return nil
 }
 
-func (oldNote *Note) Update(ctx context.Context, update *Note) error {
+func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *Note) error {
 
 	*oldNote = *update
 	return nil
 }
 
-func (repo *InMemoryNoteRepository) FindByID(context.Context, string, MyNotes) (ID string, found bool, err error) {
+func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID *Note) (foundedNote Note, found bool, err error) {
 	found = false
 	for _, note := range MyFluffyNotes {
 		noteID := note[ID]
@@ -70,11 +70,11 @@ func (repo *InMemoryNoteRepository) FindByID(context.Context, string, MyNotes) (
 	if !found {
 		err = errors.New("oh fluff, couldn't find your note")
 	}
-	return ID, found, err
+	return foundedNote, found, err
 }
 
 /*
-func (in *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
+func (repo *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
 	//your code
 	mynote := &Note{}
 	ctx := context.TODO()
