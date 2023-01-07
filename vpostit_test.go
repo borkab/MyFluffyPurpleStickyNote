@@ -40,6 +40,8 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 	repo.FindByID(ctx, ID1)
 	repo.FindByID(ctx, ID2)
 
+	repo.Update(ctx)
+	repo.Update(ctx)
 }
 
 func TestCreate(t *testing.T) {

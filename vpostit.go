@@ -3,6 +3,7 @@ package vpostit
 import (
 	"context"
 	"errors"
+	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
@@ -53,14 +54,17 @@ func (repo *InMemoryNoteRepository) Update(context.Context, *Note) error {
 	//en egy hutoszekreny vagyok, es van egy update metodusom, amivel engedem hogy frissitsek a fagyisdobozaim tartalmat.
 	//ez a metodus megeszik egy kontextust, egy meglevo doboz tartalmat(oldNote), es az uj doboz komplett tartalmat(Note)
 	//es ha baj van kikop egy hibauzenetet
-
+	var update *Note
 	//oldNote, _, _ := repo.FindByID(ctx, oldNote.ID) //megkeresem az eredeti fagyisdobozt a hutoben(Note-ot) es elnevezem reginek
-	var oldNote, update *Note
+	ctx := context.TODO()
+	_, found, _ := repo.FindByID(ctx, update.ID)
 
-	if oldNote.ID == update.ID {
-		oldNote = update //a regi  tartalmat lecserelem a frissitett uj tartalommal.
-		update.UpdateAt = time.Now()
+	if !found {
+		fmt.Println("sorry, I can't find the note you want to update")
+	} else {
+		_ = update
 	}
+
 	return nil
 }
 
