@@ -38,7 +38,9 @@ type InMemoryNoteRepository struct {
 }
 
 func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) error {
-	repo.MyNotes = make(map[string]*Note)
+	if repo.MyNotes == nil {
+		repo.MyNotes = make(map[string]*Note)
+	}
 	NewNote.ID = strconv.Itoa(rand.Int())
 
 	repo.MyNotes[NewNote.ID] = NewNote //ezt a cimket beadom a hutomnek, es hozzaparositom az eppen letrehozni kivant jegyzetemet
@@ -47,9 +49,17 @@ func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) e
 	return nil
 }
 
-func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *Note) error {
+func (repo *InMemoryNoteRepository) Update(context.Context, *Note) error {
+	//en egy hutoszekreny vagyok, es van egy update metodusom, amivel engedem hogy frissitsek a fagyisdobozaim tartalmat.
+	//ez a metodus megeszik egy kontextust, egy meglevo doboz tartalmat(oldNote), es az uj doboz komplett tartalmat(Note)
+	//es ha baj van kikop egy hibauzenetet
 
-	*oldNote = *update
+	//oldNote, _, _ := repo.FindByID(ctx, oldNote.ID) //megkeresem az eredeti fagyisdobozt a hutoben(Note-ot) es elnevezem reginek
+	var oldNote, update *Note
+
+	if oldNote.ID == update.ID {
+		oldNote = update //a regi  tartalmat lecserelem a frissitett uj tartalommal.
+	}
 	return nil
 }
 
