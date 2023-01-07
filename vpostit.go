@@ -3,7 +3,6 @@ package vpostit
 import (
 	"context"
 	"errors"
-	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
@@ -44,7 +43,8 @@ func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) e
 
 	repo.MyNotes[NewNote.ID] = NewNote //ezt a cimket beadom a hutomnek, es hozzaparositom az eppen letrehozni kivant jegyzetemet
 
-	return fmt.Errorf("ID: %v Note: %v couldn't create your PostIT", NewNote.ID, NewNote)
+	//return fmt.Errorf("ID: %v Note: %v couldn't create your PostIT", NewNote.ID, NewNote)
+	return nil
 }
 
 func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *Note) error {
