@@ -63,7 +63,6 @@ func TestCreate(t *testing.T) {
 	}
 }
 
-/*
 func TestUpdate(t *testing.T) {
 	oldNote := &Note{
 		Title: "Shopping list",
@@ -89,9 +88,7 @@ func TestUpdate(t *testing.T) {
 		t.Fatal("couldn't update note")
 	}
 }
-*/
 
-/*
 func TestFoundByID(t *testing.T) {
 
 	Note1 := &Note{
@@ -126,10 +123,11 @@ func TestFoundByID(t *testing.T) {
 	repo.Create(ctx, Note1)
 	repo.Create(ctx, Note2)
 	repo.Create(ctx, Note3)
+	//fmt.Println(Note1.ID, Note2.ID, Note3.ID)
 
-	//ID:=
+	ID := Note2.ID
 
-	foundedNote, found, err := repo.FindByID(ctx, ID, repo.MyNotes)
+	_, found, err := repo.FindByID(ctx, ID)
 
 	if found != true {
 		t.Fatal("couldn't find this note")
@@ -139,4 +137,3 @@ func TestFoundByID(t *testing.T) {
 		t.Fatal("")
 	}
 }
-*/

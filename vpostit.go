@@ -2,6 +2,7 @@ package vpostit
 
 import (
 	"context"
+	"errors"
 	"math/rand"
 	"strconv"
 	"time"
@@ -46,23 +47,23 @@ func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) e
 	return nil
 }
 
-/*
 func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *Note) error {
 
 	*oldNote = *update
 	return nil
 }
-*/
 
-/*
 func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (foundedNote Note, found bool, err error) {
-	found = false
+	//en vagyok a huto, es fagyis dobozokat(jegyzeteket) tarolok.
+	//van egy kereso metodusom, ami megeszik egy kontextust es a keresendo doboz cimkejet(ID).
+	//cserebe kikopi a megtalalt dobozt(Note-ot), egy igent vagy egy nemet attol fuggoen, h megtalalta-e, es egy hibauzit ha vmi baj tortent.
+
+	found = false                       //alap esetben NEM, mert amig meg nem talaljuk addig nincs meg.
 	for _, note := range repo.MyNotes { //vegigmegyek repo.MyNotes map osszes elemen, es amikor az elsohoz ertem,
 
-		noteID := note.ID
-		if noteID == ID { //megnezem h a kez megegyezik-e az altalam keresett ID-val. ha igen,
-			found = true //megtalaltam
-			break        //ezert nem keresek tovabb
+		if note.ID == ID { //megnezem h az elso kulcs megegyezik-e az altalam keresett fagyisdoboz cimkejevel(ID)
+			found = true //ha igen, megtalaltam es a fenti NEM-et IGEN-re valtoztatom
+			break        //megallitom a keresest
 		}
 	}
 
@@ -71,7 +72,6 @@ func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (fo
 	}
 	return foundedNote, found, err
 }
-*/
 
 /*
 func (repo *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
