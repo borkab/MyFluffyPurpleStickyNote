@@ -2,7 +2,6 @@ package vpostit
 
 import (
 	"context"
-	"errors"
 	"math/rand"
 	"strconv"
 	"time"
@@ -38,7 +37,7 @@ type InMemoryNoteRepository struct {
 }
 
 func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) error {
-
+	repo.MyNotes = make(map[string]*Note)
 	NewNote.ID = strconv.Itoa(rand.Int())
 
 	repo.MyNotes[NewNote.ID] = NewNote //ezt a cimket beadom a hutomnek, es hozzaparositom az eppen letrehozni kivant jegyzetemet
@@ -47,12 +46,15 @@ func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) e
 	return nil
 }
 
+/*
 func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *Note) error {
 
 	*oldNote = *update
 	return nil
 }
+*/
 
+/*
 func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (foundedNote Note, found bool, err error) {
 	found = false
 	for _, note := range repo.MyNotes { //vegigmegyek repo.MyNotes map osszes elemen, es amikor az elsohoz ertem,
@@ -69,6 +71,7 @@ func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (fo
 	}
 	return foundedNote, found, err
 }
+*/
 
 /*
 func (repo *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
