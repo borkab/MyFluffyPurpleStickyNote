@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math/rand"
+	"strconv"
 	"time"
 )
 
@@ -38,20 +40,11 @@ type InMemoryNoteRepository struct {
 
 func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) error {
 
-	NewNote.Title = "Selbstbewusstsein"
-	NewNote.Body = "Ich kann das. , Ich bin liebenswert. , Ich weiss wer ich bin."
-	NewNote.Info.MadeDay = time.Now()
-	NewNote.ID = "funko001"
-
-	//NewNote.ID = "funko001" //adok az uj jegyzetnek egy egyedi cimket
+	NewNote.ID = strconv.Itoa(rand.Int())
 
 	repo.MyNotes[NewNote.ID] = NewNote //ezt a cimket beadom a hutomnek, es hozzaparositom az eppen letrehozni kivant jegyzetemet
 
-	err := context.Context.Err(ctx)
-	if err != nil {
-		fmt.Println("sorry couldn't create your Note", err)
-	}
-	return err
+	return fmt.Errorf("ID: %v Note: %v couldn't create your PostIT", NewNote.ID, NewNote)
 }
 
 func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *Note) error {
