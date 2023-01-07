@@ -59,6 +59,7 @@ func (repo *InMemoryNoteRepository) Update(context.Context, *Note) error {
 
 	if oldNote.ID == update.ID {
 		oldNote = update //a regi  tartalmat lecserelem a frissitett uj tartalommal.
+		update.UpdateAt = time.Now()
 	}
 	return nil
 }
