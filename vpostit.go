@@ -55,13 +55,13 @@ func (repo *InMemoryNoteRepository) Update(context.Context, *Note) error {
 	//ez a metodus megeszik egy kontextust, egy meglevo doboz tartalmat(oldNote), es az uj doboz komplett tartalmat(Note)
 	//es ha baj van kikop egy hibauzenetet
 	var update *Note
-	//oldNote, _, _ := repo.FindByID(ctx, oldNote.ID) //megkeresem az eredeti fagyisdobozt a hutoben(Note-ot) es elnevezem reginek
-	ctx := context.TODO()
-	_, found, _ := repo.FindByID(ctx, update.ID)
+	//oldNote, _, _ := repo.FindByID(ctx, oldNote.ID)
+	ctx := context.TODO()                        //inditok egy kontextust
+	_, found, _ := repo.FindByID(ctx, update.ID) //megkeresem az eredeti fagyisdobozt a hutoben(Note-ot)
 
-	if !found {
+	if !found { //ha nem talaltam meg a regit, bevagom a huto ajtajat...
 		fmt.Println("sorry, I can't find the note you want to update")
-	} else {
+	} else { //ha meg van (yipee) frissitjuk a tartalmat, a cimke es a doboz marad (meg jo hogy nem kell elmosogatni ;P )
 		_ = update
 	}
 
