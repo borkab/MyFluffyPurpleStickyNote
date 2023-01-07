@@ -67,12 +67,11 @@ func TestUpdate(t *testing.T) {
 		Title: "Shopping list",
 		Body:  "milk, coffee, pretzels",
 		Info: Info{
-			MadeDay:  time.Now(),
-			UpdateAt: time.Now(),
+			MadeDay: time.Now(),
 		},
 	}
 
-	update := Note{
+	update := &Note{
 		Title: "My Today's Shopping list",
 		Body:  "milk, coffee, bagels and more",
 		Info: Info{
@@ -82,6 +81,9 @@ func TestUpdate(t *testing.T) {
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
 	got := repo.Update(ctx, oldNote, update)
+	//	too many arguments in call to repo.Update
+	//	have (context.Context, *Note, *Note)
+	//	want (context.Context, *Note)compiler
 
 	if got != nil {
 		t.Fatal("couldn't update note")
