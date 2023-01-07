@@ -3,6 +3,7 @@ package vpostit
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -35,16 +36,17 @@ type InMemoryNoteRepository struct {
 	MyNotes map[string]*Note
 }
 
-func (repo *InMemoryNoteRepository) Create(context.Context, *Note) error {
-	MY := &InMemoryNoteRepository{
-		MyNotes: make(map[string]*Note),
-	}
-	NewNote := &Note{}
+func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) error {
+
 	ID := NewNote.ID
 
-	MY.MyNotes[ID] = NewNote
+	repo.MyNotes[ID] = NewNote
 
-	return nil
+	err := context.Context.Err(ctx)
+	if err != nil {
+		fmt.Println("sorry couldn't create your Note", err)
+	}
+	return err
 }
 
 func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *Note) error {
@@ -55,12 +57,12 @@ func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *
 
 func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (foundedNote Note, found bool, err error) {
 	found = false
-	for _, note := range repo.MyNotes {
+	for _, note := range repo.MyNotes { //vegigmegyek repo.MyNotes map osszes elemen, es amikor az elsohoz ertem,
 
 		noteID := note.ID
-		if noteID == ID { //invalid operation: cannot compare noteID == ID (mismatched types *Note and string)
-			found = true
-			break
+		if noteID == ID { //megnezem h a kez megegyezik-e az altalam keresett ID-val. ha igen,
+			found = true //megtalaltam
+			break        //ezert nem keresek tovabb
 		}
 	}
 

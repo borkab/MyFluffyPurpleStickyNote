@@ -63,7 +63,6 @@ func TestCreate(t *testing.T) {
 	}
 }
 
-/*
 func TestUpdate(t *testing.T) {
 	oldNote := &Note{
 		Title: "Shopping list",
@@ -72,10 +71,9 @@ func TestUpdate(t *testing.T) {
 			MadeDay:  time.Now(),
 			UpdateAt: time.Now(),
 		},
-		ID: "fluff.0001",
 	}
 
-	update := Note{
+	update := &Note{
 		Title: "My Today's Shopping list",
 		Body:  "milk, coffee, bagels and more",
 		Info: Info{
@@ -90,34 +88,45 @@ func TestUpdate(t *testing.T) {
 		t.Fatal("couldn't update note")
 	}
 }
-*/
 
-/*
 func TestFoundByID(t *testing.T) {
-	MyFluffyNotes := []*Note{
-		&Note{
-			Title: "My Today's Shopping list",
-			Body:  "milk, coffee, bagels and more",
-			ID:    "fluff.0001",
-		},
-		&Note{
-			Title: "My Today's TODO list",
-			Body:  "go shopping, do housework, learn GO",
-			ID:    "fluff.0002",
-		},
-		&Note{
-			Title: "My Today's Housework list",
-			Body:  "make laundry, cook lunch, pick up toys, hoover everywhere",
-			ID:    "fluff.0003",
+
+	Note1 := &Note{
+		Title: "My Today's Shopping list",
+		Body:  "milk, coffee, bagels and more",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
 		},
 	}
 
-	ID := "fluff.0002"
+	Note2 := &Note{
+		Title: "My Today's TODO list",
+		Body:  "go shopping, do housework, learn GO",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
+
+	Note3 := &Note{
+		Title: "My Today's Housework list",
+		Body:  "make laundry, cook lunch, pick up toys, hoover everywhere",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
 
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
+	repo.Create(ctx, Note1)
+	repo.Create(ctx, Note2)
+	repo.Create(ctx, Note3)
 
-	foundedNote, found, err := repo.FindByID(ctx, ID, MyFluffyNotes)
+	//ID:=
+
+	foundedNote, found, err := repo.FindByID(ctx, ID, repo.MyNotes)
 
 	if found != true {
 		t.Fatal("couldn't find this note")
@@ -127,4 +136,3 @@ func TestFoundByID(t *testing.T) {
 		t.Fatal("")
 	}
 }
-*/
