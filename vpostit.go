@@ -37,14 +37,11 @@ type InMemoryNoteRepository struct {
 }
 
 func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) error {
-	NewNote = &Note{
-		Title: "Selbstbewusstsein",
-		Body:  "Ich kann das. , Ich bin liebenswert. , Ich weiss wer ich bin.",
-		Info: Info{
-			MadeDay: time.Now(),
-		},
-		ID: "funko001",
-	}
+
+	NewNote.Title = "Selbstbewusstsein"
+	NewNote.Body = "Ich kann das. , Ich bin liebenswert. , Ich weiss wer ich bin."
+	NewNote.Info.MadeDay = time.Now()
+	NewNote.ID = "funko001"
 
 	//NewNote.ID = "funko001" //adok az uj jegyzetnek egy egyedi cimket
 
