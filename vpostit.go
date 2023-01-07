@@ -38,9 +38,9 @@ type InMemoryNoteRepository struct {
 
 func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) error {
 
-	ID := NewNote.ID
+	NewNote.ID = "funko001"
 
-	repo.MyNotes[ID] = NewNote
+	repo.MyNotes[NewNote.ID] = NewNote
 
 	err := context.Context.Err(ctx)
 	if err != nil {
