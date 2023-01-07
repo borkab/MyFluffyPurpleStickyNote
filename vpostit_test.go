@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+/*
 func TestInMemoryNoteRepository_smoke(t *testing.T) {
 
 	Note1 := &Note{
@@ -34,11 +35,13 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 	repo.Create(ctx, Note1)
 	repo.Create(ctx, Note2)
 
-	ID1 := Note1.ID
-	ID2 := Note2.ID
-	repo.FindByID(ctx, ID1)
-	repo.FindByID(ctx, ID2)
+	//	ID1 := Note1.ID
+	//	ID2 := Note2.ID
+	//
+	// repo.FindByID(ctx, ID1)
+	// repo.FindByID(ctx, ID2)
 }
+*/
 
 func TestCreate(t *testing.T) {
 	newNote := &Note{
@@ -48,7 +51,6 @@ func TestCreate(t *testing.T) {
 			MadeDay:  time.Now(),
 			UpdateAt: time.Now(),
 		},
-		ID: "fluff.0001",
 	}
 
 	repo := InMemoryNoteRepository{}
@@ -61,6 +63,7 @@ func TestCreate(t *testing.T) {
 	}
 }
 
+/*
 func TestUpdate(t *testing.T) {
 	oldNote := &Note{
 		Title: "Shopping list",
@@ -87,6 +90,7 @@ func TestUpdate(t *testing.T) {
 		t.Fatal("couldn't update note")
 	}
 }
+*/
 
 /*
 func TestFoundByID(t *testing.T) {

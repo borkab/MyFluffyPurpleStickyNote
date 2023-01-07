@@ -6,7 +6,6 @@ import (
 	"time"
 )
 
-// MyNotes is a map of a *Note, for easier manipulating as search and delete by ID(key)
 //type MyNotes map[string]*Note
 
 // Note represents an online post-it
@@ -25,25 +24,25 @@ type Info struct {
 // declaring the repository interface allows us to easily
 // swap out the actual implementation, enforcing loose coupling.
 type Repository interface {
-	Create(context.Context, *Note, []MyNotes) error
+	Create(context.Context, *Note) error
 	Update(context.Context, *Note) error
 	FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error)
 	DeleteByID(ctx context.Context, ID string) error
 }
 
 type InMemoryNoteRepository struct {
+	// MyNotes is a map of a *Note, for easier manipulating as search and delete by ID(key)
 	MyNotes map[string]*Note
 }
 
 func (repo *InMemoryNoteRepository) Create(context.Context, *Note) error {
-
+	MY := &InMemoryNoteRepository{
+		MyNotes: make(map[string]*Note),
+	}
 	NewNote := &Note{}
 	ID := NewNote.ID
 
-	var n = make(MyNotes) //I give the Note to a map, where the key is the ID and the value is the Note struct
-	n[ID] = NewNote
-
-	MyFluffyNotes = append(MyFluffyNotes, n) //here I give my map of the Note to the struct of all the Notes
+	MY.MyNotes[ID] = NewNote
 
 	return nil
 }
@@ -56,8 +55,9 @@ func (repo InMemoryNoteRepository) Update(ctx context.Context, oldNote, update *
 
 func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (foundedNote Note, found bool, err error) {
 	found = false
-	for _, note := range MyFluffyNotes {
-		noteID := note[ID]
+	for _, note := range repo.MyNotes {
+
+		noteID := note.ID
 		if noteID == ID { //invalid operation: cannot compare noteID == ID (mismatched types *Note and string)
 			found = true
 			break
