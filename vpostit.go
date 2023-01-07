@@ -38,9 +38,9 @@ type InMemoryNoteRepository struct {
 
 func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) error {
 
-	NewNote.ID = "funko001"
+	NewNote.ID = "funko001" //adok az uj jegyzetnek egy egyedi cimket
 
-	repo.MyNotes[NewNote.ID] = NewNote
+	repo.MyNotes[NewNote.ID] = NewNote //ezt a cimket beadom a hutomnek, es hozzaparositom az eppen letrehozni kivant jegyzetemet
 
 	err := context.Context.Err(ctx)
 	if err != nil {
