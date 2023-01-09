@@ -2,7 +2,6 @@ package vpostit
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -67,38 +66,22 @@ func (repo *InMemoryNoteRepository) Update(ctx context.Context, update *Note) er
 	return nil
 }
 
-func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (foundedNote *Note, found bool, err error) {
+func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (note Note, found bool, err error) {
 	//en vagyok a huto, es fagyis dobozokat(jegyzeteket) tarolok.
 	//van egy kereso metodusom, ami megeszik egy kontextust es a keresendo doboz cimkejet(ID).
 	//cserebe kikopi a megtalalt dobozt(Note-ot), egy igent vagy egy nemet attol fuggoen, h megtalalta-e, es egy hibauzit ha vmi baj tortent.
 
-	foundedNote, found = repo.MyNotes[ID]
+	note, found = repo.MyNotes[ID]
 
 	if !found {
-		err = errors.New("oh fluff, couldn't find your note")
+		return Note{}, false, nil
 	}
-	return foundedNote, found, err
+
+	return *note, true, nil
+
 }
 
-/*
 func (repo *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
-	//your code
-	mynote := &Note{}
-	ctx := context.TODO()
 
-	ID := mynote.ID
-	var err error
-	_, found, _ := in.FindByID(ctx, ID, MyFluffyNotes)
-	if !found {
-		err = errors.New("oh fluff, couldn't find your note")
-	} else {
-		for i := range MyFluffyNotes {
-			if MyFluffyNotes[i{ID}] == mynote.ID {
-				return i
-			}
-		}
-	}
-
-	return err
+	return nil
 }
-*/
