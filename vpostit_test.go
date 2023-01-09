@@ -2,6 +2,7 @@ package vpostit
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 )
@@ -15,7 +16,6 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 			MadeDay:  time.Now(),
 			UpdateAt: time.Now(),
 		},
-		ID: "",
 	}
 
 	Note2 := &Note{
@@ -25,7 +25,15 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 			MadeDay:  time.Now(),
 			UpdateAt: time.Now(),
 		},
-		ID: "",
+	}
+
+	Note3 := &Note{
+		Title: "Some things",
+		Body:  "dance, sing, eat",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
 	}
 
 	repo := InMemoryNoteRepository{}
@@ -33,15 +41,47 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 
 	repo.Create(ctx, Note1)
 	repo.Create(ctx, Note2)
+	repo.Create(ctx, Note3)
+	fmt.Println(Note1.ID)
+	fmt.Println(Note2.ID)
+	fmt.Println(Note3.ID)
 
-	ID1 := Note1.ID
-	ID2 := Note2.ID
+	//ID1 := Note1.ID
+	//ID2 := Note2.ID
 
-	repo.FindByID(ctx, ID1)
-	repo.FindByID(ctx, ID2)
+	repo.FindByID(ctx, Note1.ID)
+	repo.FindByID(ctx, Note2.ID)
 
-	repo.Update(ctx)
-	repo.Update(ctx)
+	UpdateNote1 := &Note{
+		Title: "Morning Rituals",
+		Body:  "brush teeth, wash face, drink water",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
+
+	UpdateNote2 := &Note{
+		Title: "Evening Rituals",
+		Body:  "brush teeth, have a shower, go to sleep",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
+
+	UpdateNote3 := &Note{
+		Title: "Evening Rituals",
+		Body:  "brush teeth, have a shower, go to sleep",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
+
+	repo.Update(ctx, UpdateNote1)
+	repo.Update(ctx, UpdateNote2)
+	repo.Update(ctx, UpdateNote3)
 }
 
 func TestCreate(t *testing.T) {
@@ -82,7 +122,8 @@ func TestUpdate(t *testing.T) {
 	}
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
-	got := repo.Update(ctx, oldNote, update)
+	repo.Create(ctx, oldNote)
+	got := repo.Update(ctx, update)
 	//	too many arguments in call to repo.Update
 	//	have (context.Context, *Note, *Note)
 	//	want (context.Context, *Note)compiler
@@ -132,11 +173,11 @@ func TestFoundByID(t *testing.T) {
 
 	_, found, err := repo.FindByID(ctx, ID)
 
-	if found != true {
+	if !found {
 		t.Fatal("couldn't find this note")
 	}
 
 	if err != nil {
-		t.Fatal("")
+		t.Fatal("there is a houge problem")
 	}
 }
