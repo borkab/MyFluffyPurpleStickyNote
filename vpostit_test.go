@@ -2,7 +2,10 @@ package vpostit
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"math/rand"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -26,31 +29,33 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 			UpdateAt: time.Now(),
 		},
 	}
-
-	Note3 := &Note{
-		Title: "Some things",
-		Body:  "dance, sing, eat",
-		Info: Info{
-			MadeDay:  time.Now(),
-			UpdateAt: time.Now(),
-		},
-	}
-
+	/*
+		Note3 := &Note{
+			Title: "Some things",
+			Body:  "dance, sing, eat",
+			Info: Info{
+				MadeDay:  time.Now(),
+				UpdateAt: time.Now(),
+			},
+		}
+	*/
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
 
 	repo.Create(ctx, Note1)
 	repo.Create(ctx, Note2)
-	repo.Create(ctx, Note3)
-	fmt.Println(Note1.ID)
-	fmt.Println(Note2.ID)
-	fmt.Println(Note3.ID)
+	//repo.Create(ctx, Note3)
+	//fmt.Println(Note1.ID)
+	//fmt.Println(Note2.ID)
+	//fmt.Println(Note3.ID)
 
 	//ID1 := Note1.ID
 	//ID2 := Note2.ID
+	ID3 := strconv.Itoa(rand.Int())
 
 	repo.FindByID(ctx, Note1.ID)
 	repo.FindByID(ctx, Note2.ID)
+	repo.FindByID(ctx, ID3)
 
 	UpdateNote1 := &Note{
 		Title: "Morning Rituals",
@@ -169,15 +174,31 @@ func TestFoundByID(t *testing.T) {
 	repo.Create(ctx, Note3)
 	//fmt.Println(Note1.ID, Note2.ID, Note3.ID)
 
-	ID := Note2.ID
+	t.Run("if found", func(t *testing.T) {
+		ID := Note2.ID
 
-	_, found, err := repo.FindByID(ctx, ID)
+		_, found, err := repo.FindByID(ctx, ID)
 
-	if !found {
-		t.Fatal("couldn't find this note")
-	}
+		if !found {
+			t.Fatal("couldn't find this note")
+		}
 
-	if err != nil {
-		t.Fatal("there is a houge problem")
-	}
+		if err != nil {
+			t.Fatal("there is a houge problem")
+		}
+	})
+
+	t.Run("if not found", func(t *testing.T) {
+		ID := strconv.Itoa(rand.Int())
+
+		_, found, err := repo.FindByID(ctx, ID)
+
+		if !found {
+			fmt.Println("test for unknown ID: !found: couldn't find this note")
+		}
+
+		if err != nil {
+			fmt.Println(errors.New("test for unknown ID: err: your note could not be found"))
+		}
+	})
 }

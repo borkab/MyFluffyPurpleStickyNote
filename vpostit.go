@@ -3,6 +3,7 @@ package vpostit
 import (
 	"context"
 	"errors"
+	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
@@ -54,23 +55,24 @@ func (repo *InMemoryNoteRepository) Update(ctx context.Context, update *Note) er
 	//ez a metodus megeszik egy kontextust, egy meglevo doboz tartalmat(oldNote), es az uj doboz komplett tartalmat(Note)
 	//es ha baj van kikop egy hibauzenetet
 
-	repo.MyNotes[update.ID] = update
+	_, found, _ := repo.FindByID(ctx, update.ID)
+
+	if !found {
+		fmt.Println("couldn't update, unknown ID")
+
+	} else {
+		repo.MyNotes[update.ID] = update
+	}
+
 	return nil
 }
 
-func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (foundedNote Note, found bool, err error) {
+func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (foundedNote *Note, found bool, err error) {
 	//en vagyok a huto, es fagyis dobozokat(jegyzeteket) tarolok.
 	//van egy kereso metodusom, ami megeszik egy kontextust es a keresendo doboz cimkejet(ID).
 	//cserebe kikopi a megtalalt dobozt(Note-ot), egy igent vagy egy nemet attol fuggoen, h megtalalta-e, es egy hibauzit ha vmi baj tortent.
 
-	found = false                       //alap esetben NEM, mert amig meg nem talaljuk addig nincs meg.
-	for _, note := range repo.MyNotes { //vegigmegyek repo.MyNotes map osszes elemen, es amikor az elsohoz ertem,
-
-		if note.ID == ID { //megnezem h az elso kulcs megegyezik-e az altalam keresett fagyisdoboz cimkejevel(ID)
-			found = true //ha igen, megtalaltam es a fenti NEM-et IGEN-re valtoztatom
-			break        //megallitom a keresest
-		}
-	}
+	foundedNote, found = repo.MyNotes[ID]
 
 	if !found {
 		err = errors.New("oh fluff, couldn't find your note")
