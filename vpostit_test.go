@@ -8,11 +8,12 @@ import (
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/adamluzsi/testcase/assert"
 )
 
 func TestInMemoryNoteRepository_smoke(t *testing.T) {
-
-	Note1 := &Note{
+	n1 := Note{
 		Title: "Mornings TODO",
 		Body:  "make laundry, cook lunch, clean dining table, wash dishes",
 		Info: Info{
@@ -21,7 +22,7 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 		},
 	}
 
-	Note2 := &Note{
+	n2 := Note{
 		Title: "Evenings TODO",
 		Body:  "pick up toys, pick up clothes, set dishwasher, take out trash",
 		Info: Info{
@@ -29,64 +30,50 @@ func TestInMemoryNoteRepository_smoke(t *testing.T) {
 			UpdateAt: time.Now(),
 		},
 	}
-	/*
-		Note3 := &Note{
-			Title: "Some things",
-			Body:  "dance, sing, eat",
-			Info: Info{
-				MadeDay:  time.Now(),
-				UpdateAt: time.Now(),
-			},
-		}
-	*/
+
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
 
-	repo.Create(ctx, Note1)
-	repo.Create(ctx, Note2)
-	//repo.Create(ctx, Note3)
-	//fmt.Println(Note1.ID)
-	//fmt.Println(Note2.ID)
-	//fmt.Println(Note3.ID)
+	t.Log("Create")
+	assert.NoError(t, repo.Create(ctx, &n1))
+	assert.NotEmpty(t, n1.ID)
 
-	//ID1 := Note1.ID
-	//ID2 := Note2.ID
-	ID3 := strconv.Itoa(rand.Int())
+	assert.NoError(t, repo.Create(ctx, &n2))
+	assert.NotEmpty(t, n2.ID)
 
-	repo.FindByID(ctx, Note1.ID)
-	repo.FindByID(ctx, Note2.ID)
-	repo.FindByID(ctx, ID3)
+	t.Log("FindByID - n1")
+	gotNote, found, err := repo.FindByID(ctx, n1.ID)
+	assert.NoError(t, err)
+	assert.True(t, found)
+	assert.Equal(t, n1, gotNote)
 
-	UpdateNote1 := &Note{
-		Title: "Morning Rituals",
-		Body:  "brush teeth, wash face, drink water",
-		Info: Info{
-			MadeDay:  time.Now(),
-			UpdateAt: time.Now(),
-		},
-	}
+	t.Log("FindByID - n2")
+	gotNote, found, err = repo.FindByID(ctx, n2.ID)
+	assert.NoError(t, err)
+	assert.True(t, found)
+	assert.Equal(t, n2, gotNote)
 
-	UpdateNote2 := &Note{
-		Title: "Evening Rituals",
-		Body:  "brush teeth, have a shower, go to sleep",
-		Info: Info{
-			MadeDay:  time.Now(),
-			UpdateAt: time.Now(),
-		},
-	}
+	t.Log("Update")
+	n1.Title = "foo/bar/baz"
+	assert.NoError(t, repo.Update(ctx, &n1), "updating note1 should be possible")
+	gotNote, found, err = repo.FindByID(ctx, n1.ID)
+	assert.NoError(t, err)
+	assert.True(t, found)
+	assert.Equal(t, n1, gotNote)
 
-	UpdateNote3 := &Note{
-		Title: "Evening Rituals",
-		Body:  "brush teeth, have a shower, go to sleep",
-		Info: Info{
-			MadeDay:  time.Now(),
-			UpdateAt: time.Now(),
-		},
-	}
+	t.Log("DeleteByID")
+	assert.NoError(t, repo.DeleteByID(ctx, n1.ID), "deleting note1 should be possible")
+	gotNote, found, err = repo.FindByID(ctx, n1.ID)
+	assert.NoError(t, err)
+	assert.False(t, found, "note1 should be deleted")
+	assert.Empty(t, gotNote)
 
-	repo.Update(ctx, UpdateNote1)
-	repo.Update(ctx, UpdateNote2)
-	repo.Update(ctx, UpdateNote3)
+	gotNote, found, err = repo.FindByID(ctx, n2.ID)
+	assert.NoError(t, err)
+	assert.True(t, found)
+	assert.Equal(t, n2, gotNote, "note2 should be the same regardless of the deletion of note1")
+
+	assert.Error(t, repo.Update(ctx, &n1), "updating a deleted entity should yield an error")
 }
 
 func TestCreate(t *testing.T) {

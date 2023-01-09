@@ -66,19 +66,15 @@ func (repo *InMemoryNoteRepository) Update(ctx context.Context, update *Note) er
 	return nil
 }
 
-func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (note Note, found bool, err error) {
+func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (Note, bool, error) {
 	//en vagyok a huto, es fagyis dobozokat(jegyzeteket) tarolok.
 	//van egy kereso metodusom, ami megeszik egy kontextust es a keresendo doboz cimkejet(ID).
 	//cserebe kikopi a megtalalt dobozt(Note-ot), egy igent vagy egy nemet attol fuggoen, h megtalalta-e, es egy hibauzit ha vmi baj tortent.
-
-	note, found = repo.MyNotes[ID]
-
+	note, found := repo.MyNotes[ID]
 	if !found {
 		return Note{}, false, nil
 	}
-
 	return *note, true, nil
-
 }
 
 func (repo *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
