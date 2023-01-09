@@ -2,6 +2,7 @@ package vpostit
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -77,7 +78,14 @@ func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (No
 	return *note, true, nil
 }
 
-func (repo *InMemoryNoteRepository) DeleteByID(context.Context, string) error {
+func (repo *InMemoryNoteRepository) DeleteByID(ctx context.Context, ID string) error {
 
-	return nil
+	_, found, _ := repo.FindByID(ctx, ID)
+
+	if found {
+		delete(repo.MyNotes, ID)
+		return nil
+	}
+
+	return errors.New("couldn't delete note, unknown ID")
 }
