@@ -58,10 +58,9 @@ func (repo *InMemoryNoteRepository) Update(ctx context.Context, update *Note) er
 
 	if !found { //ha nincs benne, kiirjuk hogy ismeretlen cimke
 		err = errors.New("couldn't update, unknown ID")
-
-	} else { //amugy meg frissitjuk ha megvan
-		repo.MyNotes[update.ID] = update
 	}
+
+	repo.MyNotes[update.ID] = update
 
 	return err //visszadobunk egy nulla erteku hibauzit
 }
