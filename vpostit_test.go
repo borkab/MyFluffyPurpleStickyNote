@@ -104,6 +104,10 @@ func TestUpdate(t *testing.T) {
 		},
 	}
 
+	repo := InMemoryNoteRepository{}
+	ctx := context.Background()
+	repo.Create(ctx, oldNote) //letrehozok egy oldNote nevu jegyzetet a repoban
+
 	update := &Note{
 		Title: "My Today's Shopping list",
 		Body:  "milk, coffee, bagels and more",
@@ -121,10 +125,6 @@ func TestUpdate(t *testing.T) {
 		},
 		ID: strconv.Itoa(rand.Int()),
 	}
-
-	repo := InMemoryNoteRepository{}
-	ctx := context.Background()
-	repo.Create(ctx, oldNote)
 
 	t.Run("if found", func(t *testing.T) {
 		got := repo.Update(ctx, update)
