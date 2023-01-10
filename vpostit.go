@@ -55,16 +55,16 @@ func (repo *InMemoryNoteRepository) Update(ctx context.Context, update *Note) er
 	//ez a metodus megeszik egy kontextust, egy meglevo doboz tartalmat(oldNote), es az uj doboz komplett tartalmat(Note)
 	//es ha baj van kikop egy hibauzenetet
 
-	_, found, _ := repo.FindByID(ctx, update.ID)
+	_, found, _ := repo.FindByID(ctx, update.ID) //megnezem, h a frissiteni kivant fagyisdoboz benne van e pocakomban
 
-	if !found {
+	if !found { //ha nincs benne, kiirjuk hogy ismeretlen cimke
 		fmt.Println("couldn't update, unknown ID")
 
-	} else {
+	} else { //amugy meg frissitjuk ha megvan
 		repo.MyNotes[update.ID] = update
 	}
 
-	return nil
+	return nil //visszadobunk egy nulla erteku hibauzit
 }
 
 func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (Note, bool, error) {
