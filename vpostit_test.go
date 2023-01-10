@@ -96,7 +96,7 @@ func TestCreate(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	oldNote := &Note{
+	note := &Note{
 		Title: "Shopping list",
 		Body:  "milk, coffee, pretzels",
 		Info: Info{
@@ -106,7 +106,7 @@ func TestUpdate(t *testing.T) {
 
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
-	repo.Create(ctx, oldNote) //letrehozok egy oldNote nevu jegyzetet a repoban
+	repo.Create(ctx, note) //letrehozok egy oldNote nevu jegyzetet a repoban
 
 	update := &Note{
 		Title: "My Today's Shopping list",
@@ -114,7 +114,7 @@ func TestUpdate(t *testing.T) {
 		Info: Info{
 			UpdateAt: time.Now(),
 		},
-		ID: oldNote.ID,
+		ID: note.ID,
 	}
 
 	update2 := &Note{
