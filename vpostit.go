@@ -79,13 +79,15 @@ func (repo *InMemoryNoteRepository) FindByID(ctx context.Context, ID string) (No
 }
 
 func (repo *InMemoryNoteRepository) DeleteByID(ctx context.Context, ID string) error {
+	//egy tarolo vagyok, es jegyzeteket tarolnak bennem
+	//van egy delete metodusom, ami beker egy kontextust es egy egyedi kodot,
+	//majd visszaad egy hibauzenetet, ha valami balul sult el a torles soran
 
-	_, found, _ := repo.FindByID(ctx, ID)
+	_, found, err := repo.FindByID(ctx, ID) //megnezem h a torolni kivant jegyzet egyedi kodja bennem van e
 
-	if found {
-		delete(repo.MyNotes, ID)
-		return nil
+	if !found {
+		return errors.New("unknown ID")
 	}
-
-	return errors.New("couldn't delete note, unknown ID")
+	delete(repo.MyNotes, ID)
+	return err
 }

@@ -2,7 +2,6 @@ package vpostit
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -116,9 +115,6 @@ func TestUpdate(t *testing.T) {
 	ctx := context.Background()
 	repo.Create(ctx, oldNote)
 	got := repo.Update(ctx, update)
-	//	too many arguments in call to repo.Update
-	//	have (context.Context, *Note, *Note)
-	//	want (context.Context, *Note)compiler
 
 	if got != nil {
 		t.Fatal("couldn't update note")
@@ -181,11 +177,62 @@ func TestFoundByID(t *testing.T) {
 		_, found, err := repo.FindByID(ctx, ID)
 
 		if !found {
-			fmt.Println("test for unknown ID: !found: couldn't find this note")
+			fmt.Printf("!found: couldn't find this note")
 		}
 
 		if err != nil {
-			fmt.Println(errors.New("test for unknown ID: err: your note could not be found"))
+			fmt.Printf("err: your note could not be found")
 		}
 	})
+}
+
+func TestDeleteByID(t *testing.T) {
+
+	Note1 := &Note{
+		Title: "My Today's Shopping list",
+		Body:  "milk, coffee, bagels and more",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
+
+	Note2 := &Note{
+		Title: "My Today's TODO list",
+		Body:  "go shopping, do housework, learn GO",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
+
+	Note3 := &Note{
+		Title: "My Today's Housework list",
+		Body:  "make laundry, cook lunch, pick up toys, hoover everywhere",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
+
+	Note4 := &Note{
+		Title: "Learning TODO",
+		Body:  "maps, interfaces, RDD, TDD",
+		Info: Info{
+			MadeDay:  time.Now(),
+			UpdateAt: time.Now(),
+		},
+		ID: strconv.Itoa(rand.Int()),
+	}
+
+	repo := InMemoryNoteRepository{}
+	ctx := context.Background()
+	repo.Create(ctx, Note1)
+	repo.Create(ctx, Note2)
+	repo.Create(ctx, Note3)
+
+	repo.DeleteByID(ctx, Note1.ID)
+	repo.DeleteByID(ctx, Note2.ID)
+	repo.DeleteByID(ctx, Note3.ID)
+	repo.DeleteByID(ctx, Note4.ID)
 }
