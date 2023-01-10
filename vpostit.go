@@ -28,7 +28,7 @@ type Info struct {
 type Repository interface {
 	Create(context.Context, *Note) error
 	Update(context.Context, *Note) error
-	FindByID(ctx context.Context, ID *Note) (_ Note, found bool, _ error)
+	FindByID(ctx context.Context, ID string) (_ Note, found bool, _ error)
 	DeleteByID(ctx context.Context, ID string) error
 }
 

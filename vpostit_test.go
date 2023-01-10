@@ -110,15 +110,37 @@ func TestUpdate(t *testing.T) {
 		Info: Info{
 			UpdateAt: time.Now(),
 		},
+		ID: oldNote.ID,
 	}
+
+	update2 := &Note{
+		Title: "My Today's Shopping list",
+		Body:  "milk, coffee, bagels and more",
+		Info: Info{
+			UpdateAt: time.Now(),
+		},
+		ID: strconv.Itoa(rand.Int()),
+	}
+
 	repo := InMemoryNoteRepository{}
 	ctx := context.Background()
 	repo.Create(ctx, oldNote)
-	got := repo.Update(ctx, update)
 
-	if got != nil {
-		t.Fatal("couldn't update note")
-	}
+	t.Run("if found", func(t *testing.T) {
+		got := repo.Update(ctx, update)
+
+		if got != nil {
+			t.Fatal("couldn't update note")
+		}
+	})
+
+	t.Run("if not found", func(t *testing.T) {
+		got := repo.Update(ctx, update2)
+
+		if got == nil {
+			t.Fatal("how can you update an unknown note?")
+		}
+	})
 }
 
 func TestFoundByID(t *testing.T) {
