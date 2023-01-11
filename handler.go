@@ -5,28 +5,17 @@
 package vpostit
 
 import (
-	"fmt"
-	"io"
 	"net/http"
 )
 
-type Fluff struct {
-	peggy []byte
+type FluffyHandler struct { //my handler structs
+	Fluff []byte
 }
 
-func (fu *Fluff) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		bs, err := io.ReadAll(r.Body)
-		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		fu.peggy = bs
-		w.WriteHeader(418)
-	}
-	if r.Method == "GET" {
-		w.WriteHeader(http.StatusOK)
-		w.Write(fu.peggy)
-	}
-	fmt.Fprintf(w, "Hello, World!")
+func (f *FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	data := &FluffyHandler{
+		Fluff: []byte("Hello, World!"),
+	} //create response bunary data
+
+	res.Write(data.Fluff)
 }

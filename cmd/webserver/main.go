@@ -10,5 +10,5 @@ import (
 
 func main() {
 
-	http.ListenAndServe(":8080", &vpostit.Fluff{})
+	http.ListenAndServe(":8080", &vpostit.FluffyHandler{})
 }
