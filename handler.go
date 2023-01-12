@@ -8,14 +8,18 @@ import (
 	"net/http"
 )
 
-type FluffyHandler struct { //my handler structs
+type FluffyHandler struct { //create a handler struct
 	Fluff []byte
 }
 
+// implement `ServeHTTP` method on `FluffyHandler` struct
 func (f *FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+
+	//create response binary data
 	data := &FluffyHandler{
 		Fluff: []byte("Hello, World!"),
-	} //create response bunary data
+	}
 
+	//write `data` to response
 	res.Write(data.Fluff)
 }

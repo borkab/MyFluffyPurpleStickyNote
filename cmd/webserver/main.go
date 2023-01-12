@@ -1,14 +1,14 @@
 package main
 
-//This file is in /home/borkab/learngo/github/vPOST-it/cmd/webserver, which is a nested module in the /home/borkab/learngo/github/vPOST-it/go.mod module.
-//To work on multiple modules at once, please use a go.work file.
-
 import (
 	"net/http"
-	vpostit "vPOST-it" //package vPOST-it is not in GOROOT (/usr/lib/go/src/vPOST-it) (compile)
+	vpostit "vPOST-it"
 )
 
 func main() {
 
 	http.ListenAndServe(":8080", &vpostit.FluffyHandler{})
+	//The handler argument is valid because it implements ServeHTTP method which means
+	//it implements the Handler interface which is the type of argument.
+
 }
