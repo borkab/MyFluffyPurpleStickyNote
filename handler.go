@@ -14,10 +14,19 @@ type FluffyHandler struct { //create a handler struct
 
 // implement `ServeHTTP` method on `FluffyHandler` struct
 func (f *FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	res.Header().Add("Content-Type", "text/plain; charset=utf-8")
-	res.WriteHeader(http.StatusTeapot)
+	res.Header().Set("Allow", "POST")
+	//res.Header().Add("Content-Type", "text/plain; charset=utf-8")
+	res.WriteHeader(418)
 	res.Write([]byte("Hello World\n"))
-
+	/*
+		code, err := res.Write([]byte("Hello World\n"))
+		if code != http.StatusTeapot {
+			log.Fatal("statuscode is not as expected")
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+	*/
 	//res.WriteHeader(http.StatusTeapot) //dobja vissza ezt a valasz kodot: I am a tea pot
 
 	/*
