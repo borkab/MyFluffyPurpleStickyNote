@@ -14,14 +14,11 @@ type FluffyHandler struct { //create a handler struct
 
 // implement `ServeHTTP` method on `FluffyHandler` struct
 func (f *FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	res.Header().Add("Content-Type", "text/plain; charset=utf-8")
+	res.WriteHeader(http.StatusTeapot)
+	res.Write([]byte("Hello World\n"))
 
-	//create response binary data
-	data := []byte("Hello World! <3")
-
-	//write `data` to response
-	res.Write(data)
-
-	res.WriteHeader(http.StatusTeapot) //dobja vissza ezt a valasz kodot: I am a tea pot
+	//res.WriteHeader(http.StatusTeapot) //dobja vissza ezt a valasz kodot: I am a tea pot
 
 	/*
 		if req.Method == "GET" { //ha a GET metodust hivom meg rajta
