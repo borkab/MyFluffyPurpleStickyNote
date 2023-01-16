@@ -16,7 +16,8 @@ type FluffyHandler struct { //create a handler struct
 func (f *FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	//beallitom a header map tartalmat
 	res.Header().Set("X-Foo", "bar")
-	//
+	//megadom h mi legyen a statuscode
 	res.WriteHeader(http.StatusTeapot)
+	//megadom a response Body tartalmat
 	_, _ = res.Write([]byte("Hello World!\n<3"))
 }
