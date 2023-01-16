@@ -14,7 +14,9 @@ type FluffyHandler struct { //create a handler struct
 
 // implement `ServeHTTP` method on `FluffyHandler` struct
 func (f *FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	//beallitom a header map tartalmat
 	res.Header().Set("X-Foo", "bar")
+	//
 	res.WriteHeader(http.StatusTeapot)
-	_, _ = res.Write([]byte("Hello World\n"))
+	_, _ = res.Write([]byte("Hello World!\n<3"))
 }
