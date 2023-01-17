@@ -27,7 +27,23 @@ type BuzzLightyearsLaserHandLER struct {
 
 func (b BuzzLightyearsLaserHandLER) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
-	resp.Header().Set("POST", "bar")
-	resp.Header().Add("GET", "foo")
+	if req.Method == "POST" {
+		//resp.Header().Set("foo", "bar")
+		resp.WriteHeader(http.StatusCreated)
+		_, err := resp.Write([]byte("bar\n"))
+		if err != nil {
+			resp.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+	}
+	if req.Method == "GET" {
+		_, err := resp.Write([]byte("foo\n"))
+		if err != nil {
+			resp.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		resp.WriteHeader(http.StatusOK)
+	}
 
 }
