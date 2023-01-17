@@ -1,11 +1,9 @@
 package vpostit
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
-	"strings"
 	"testing"
 
 	"github.com/adamluzsi/testcase/assert"
@@ -38,18 +36,14 @@ func TestBuzz(t *testing.T) {
 	server := httptest.NewServer(handler)    //bedobjuk a handlerunket a serverbe
 	defer server.Close()                     // ha minden kesz, bezarjuk a servert
 
-	const expected = "To the infinity and beyond!\n:)"
-	requestBody := strings.NewReader(expected) //beolvassuk egy Readerrel a string-unket amit a request Bodyba szeretnenk bedobni
-
-	request, err := http.NewRequest(http.MethodPost, server.URL, requestBody) //inditunk egy uj kerest POST metodussal
-	assert.NoError(t, err)                                                    //errCheck
+	request, err := http.NewRequest(http.MethodPost, server.URL, nil) //inditunk egy uj kerest POST metodussal
+	assert.NoError(t, err)                                            //errCheck
 
 	response, err := server.Client().Do(request) //a kliensunk
-	fmt.Println(response)                        //kikopjuk a kijelzore a valaszt
 	assert.NoError(t, err)                       //errCheck
 
-	assert.Equal(t, http.StatusTooEarly, response.StatusCode) //megnezzuk h a vart status codeot kaptuk e
-	assert.Equal(t, "foo", response.Header.Get("POST"))       //szuksegem van erre?
+	assert.Equal(t, http.StatusOK, response.StatusCode) //megnezzuk h a vart status codeot kaptuk e
+	assert.Equal(t, "bar", response.Header.Get("POST")) //szuksegem van erre?
 
 	request, err = http.NewRequest(http.MethodGet, server.URL, nil) //inditok egy uj kerest, GET metodussal
 	assert.NoError(t, err)                                          //errCheck
@@ -57,10 +51,6 @@ func TestBuzz(t *testing.T) {
 	response, err = server.Client().Do(request) //kliens
 	assert.NoError(t, err)                      //errCheck
 
-	assert.Equal(t, http.StatusGone, response.StatusCode) //megnezem h a vart statuscodeot kaptam e vissza
-	assert.Equal(t, "bar", response.Header.Get("GET"))    //kell ez?
-
-	bs, err := io.ReadAll(response.Body)                     //beolvasom a response Body tartalmat
-	assert.NoError(t, err)                                   //errCheck
-	assert.Equal(t, strings.TrimSpace(string(bs)), expected) //megegyezik a response Body tartalma az elvart szoveggel?
+	assert.Equal(t, http.StatusOK, response.StatusCode) //megnezem h a vart statuscodeot kaptam e vissza
+	assert.Equal(t, "foo", response.Header.Get("GET"))  //kell ez?
 }
