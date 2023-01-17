@@ -12,7 +12,7 @@ type FluffyHandler struct { //create a handler struct
 }
 
 // implement `ServeHTTP` method on `FluffyHandler` struct
-func (f *FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+func (f FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	//beallitom a header map tartalmat
 	res.Header().Set("X-Foo", "bar")
 	//megadom h mi legyen a statuscode
@@ -25,7 +25,7 @@ func (f *FluffyHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 type BuzzLightyearsLaserHandLER struct {
 }
 
-func (b *BuzzLightyearsLaserHandLER) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+func (b BuzzLightyearsLaserHandLER) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 	resp.Header().Set("POST", "bar")
 	resp.Header().Add("GET", "foo")

@@ -10,7 +10,7 @@ import (
 )
 
 func TestHandler(t *testing.T) {
-	handler := &FluffyHandler{}           //az en handler structom
+	handler := FluffyHandler{}            //az en handler structom
 	server := httptest.NewServer(handler) //nyitok egy servert es beledobom a handleremet
 	defer server.Close()                  //ha minden kesz, bezarom a servert
 
@@ -28,6 +28,31 @@ func TestHandler(t *testing.T) {
 	assert.NotEmpty(t, bs) //ellenorzom, h a response Body nem ures-e
 	assert.NoError(t, response.Body.Close())
 	assert.Contain(t, string(bs), "Hello World!\n<3") //ellenorzom, h a stringge alakitott bs valtozoba beolvasott response Body tartalmazza-e a kert szoveget
+}
+
+// handler ami képes mást válaszolni annak függvényében hogy GET vagy POST amit hívtál rajta
+// ha gettel hívod akkor a válasz foo + code 200
+// ha posttal akkor meg bar + code 201
+func TestBuzz_smoke(t *testing.T) {
+	handler := BuzzLightyearsLaserHandLER{}
+
+	t.Run("on GET", func(t *testing.T) {
+		request := httptest.NewRequest(http.MethodGet, "/", nil)
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, request)
+
+		assert.Equal(t, http.StatusOK, response.Code)
+		assert.Equal(t, "foo\n", response.Body.String())
+	})
+
+	t.Run("on POST", func(t *testing.T) {
+		request := httptest.NewRequest(http.MethodPost, "/", nil)
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, request)
+
+		assert.Equal(t, http.StatusCreated, response.Code)
+		assert.Equal(t, "bar\n", response.Body.String())
+	})
 }
 
 func TestBuzz(t *testing.T) {
