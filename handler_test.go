@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/adamluzsi/testcase/assert"
@@ -32,8 +33,16 @@ func TestHandler(t *testing.T) {
 
 	// csinálj egy tesztet ahol egy request headerek közül mondjuk az X-Foo header
 	// értéket valaszolod viszza a response body ban
-	expected := response.Header.Get("X-Foo")
-	assert.Equal(t, expected, string(bs))
+	expected := response.Header.Get("X-Foo") //egy “expected” valtozoba bele teszem a http keresemre kapott valasz headerjeibol az X-Foo headert.
+	assert.Equal(t, expected, string(bs))    //Ezt aztan ossze hasonlitom a http keresemre kapott valasz body -jabol kiolvasott tartalommal.
+
+	var resp http.ResponseWriter
+	header := request.Header.Get("X=Foo")
+	_, err = resp.Write([]byte(header))
+	assert.NoError(t, err)
+	requestBody := strings.NewReader(header)
+	req, err := http.NewRequest(http.MethodPost, server.URL, requestBody)
+
 }
 
 // handler ami képes mást válaszolni annak függvényében hogy GET vagy POST amit hívtál rajta
