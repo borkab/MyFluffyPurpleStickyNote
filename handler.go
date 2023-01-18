@@ -5,6 +5,7 @@
 package vpostit
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -32,7 +33,7 @@ func (b BuzzLightyearsLaserHandLER) ServeHTTP(resp http.ResponseWriter, req *htt
 		resp.WriteHeader(http.StatusCreated)
 		_, err := resp.Write([]byte("bar\n"))
 		if err != nil {
-			resp.WriteHeader(http.StatusBadRequest)
+			log.Println("error", err.Error())
 			return
 		}
 
@@ -40,7 +41,7 @@ func (b BuzzLightyearsLaserHandLER) ServeHTTP(resp http.ResponseWriter, req *htt
 	if req.Method == "GET" {
 		_, err := resp.Write([]byte("foo\n"))
 		if err != nil {
-			resp.WriteHeader(http.StatusBadRequest)
+			log.Println("error", err.Error())
 			return
 		}
 		resp.WriteHeader(http.StatusOK)
