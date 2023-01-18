@@ -10,6 +10,7 @@ import (
 )
 
 func TestHandler(t *testing.T) {
+
 	handler := FluffyHandler{}            //az en handler structom
 	server := httptest.NewServer(handler) //nyitok egy servert es beledobom a handleremet
 	defer server.Close()                  //ha minden kesz, bezarom a servert
@@ -28,6 +29,11 @@ func TestHandler(t *testing.T) {
 	assert.NotEmpty(t, bs) //ellenorzom, h a response Body nem ures-e
 	assert.NoError(t, response.Body.Close())
 	assert.Contain(t, string(bs), "Hello World!\n<3") //ellenorzom, h a stringge alakitott bs valtozoba beolvasott response Body tartalmazza-e a kert szoveget
+
+	// csinálj egy tesztet ahol egy request headerek közül mondjuk az X-Foo header
+	// értéket valaszolod viszza a response body ban
+	expected := response.Header.Get("X-Foo")
+	assert.Equal(t, expected, string(bs))
 }
 
 // handler ami képes mást válaszolni annak függvényében hogy GET vagy POST amit hívtál rajta
