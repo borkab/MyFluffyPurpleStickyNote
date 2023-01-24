@@ -48,3 +48,20 @@ func (b BuzzLightyearsLaserHandLER) ServeHTTP(resp http.ResponseWriter, req *htt
 	}
 
 }
+
+// a teszt arról szóljon hogy hívod a handlert egy requesttel amiben a X-Foo headernek valamilyen értéket adtál.
+// az erre kapott valasz Response Body -ja pontosan ugyan az az érték legyen mint amit a request header X-Foo ban küldtél el
+type Mandragora struct{}
+
+func (m Mandragora) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+
+	if r.Method == "GET" {
+		rw.Header().Set("X=Foo", "Mandragora's scream")
+		_, err := rw.Write([]byte(r.Header.Get("X-Foo")))
+		if err != nil {
+			log.Println("error", err.Error())
+			return
+		}
+		rw.WriteHeader(http.StatusOK)
+	}
+}
