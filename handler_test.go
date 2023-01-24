@@ -4,7 +4,6 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
-	"strings"
 	"testing"
 
 	"github.com/adamluzsi/testcase/assert"
@@ -31,23 +30,30 @@ func TestHandler(t *testing.T) {
 	assert.NoError(t, response.Body.Close())
 	assert.Contain(t, string(bs), "Hello World!\n<3") //ellenorzom, h a stringge alakitott bs valtozoba beolvasott response Body tartalmazza-e a kert szoveget
 
-	// csinálj egy tesztet ahol egy request headerek közül mondjuk az X-Foo header
-	// értéket valaszolod viszza a response body ban
-	expected := response.Header.Get("X-Foo") //egy “expected” valtozoba bele teszem a http keresemre kapott valasz headerjeibol az X-Foo headert.
-	assert.Equal(t, expected, string(bs))    //Ezt aztan ossze hasonlitom a http keresemre kapott valasz body -jabol kiolvasott tartalommal.
-
-	var resp http.ResponseWriter
-	header := request.Header.Get("X=Foo")
-	_, err = resp.Write([]byte(header))
-	assert.NoError(t, err)
-	requestBody := strings.NewReader(header)
-	req, err := http.NewRequest(http.MethodPost, server.URL, requestBody)
-
 }
 
 // handler ami képes mást válaszolni annak függvényében hogy GET vagy POST amit hívtál rajta
 // ha gettel hívod akkor a válasz foo + code 200
 // ha posttal akkor meg bar + code 201
+
+// csinálj egy tesztet ahol egy újonnan irt handler -t fogsz tesztelni.
+// a teszt arról szóljon hogy hívod a handlert egy requesttel amiben a X-Foo headernek valamilyen értéket adtál.
+// az erre kapott valasz Response Body -ja pontosan ugyan az az érték legyen mint amit a request header X-Foo ban küldtél el
+func TestMandragoraHandler(t *testing.T) {
+	hm := Mandragora{}               //a hm valtozonak megadom az uj handler struct-ot erteknek
+	server := httptest.NewServer(hm) //inditok egy uj szervert aminek argumensnek megadom az uj handler-t tartalmazo valtozomat
+	defer server.Close()             //a folyamat vegen bezarom a szervert
+
+	request := httptest.NewRequest(http.MethodGet, server.URL, nil) //inditok egy uj kerest, amin a GET metodust hivom, a server URL-jen, nil erteku hibaval
+	request.Header.Set("X-Foo", "Mandragora's scream")              //beallitom a Header kulcs-ertek part
+	response, err := server.Client().Do(request)                    //ez a kliensem, ami elkuldi a kerest es visszaadja a valaszt
+	assert.NoError(t, err)
+
+	header := request.Header.Get("X-Foo") //a header valtozonak megadom a keres Header X-Foo kulcs ertek parjat erteknek
+	bs, err := io.ReadAll(response.Body)  //beolvasom a response Bodyt
+	assert.NoError(t, err)
+	assert.Equal(t, header, string(bs)) //megnezem, h a response Body tartalma ugyanaz e mint az ertek amit a header valtozonak adtam
+}
 func TestBuzz_smoke(t *testing.T) {
 	handler := BuzzLightyearsLaserHandLER{}
 
