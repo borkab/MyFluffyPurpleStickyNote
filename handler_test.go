@@ -44,9 +44,10 @@ func TestMandragoraHandler(t *testing.T) {
 	server := httptest.NewServer(hm) //inditok egy uj szervert aminek argumensnek megadom az uj handler-t tartalmazo valtozomat
 	defer server.Close()             //a folyamat vegen bezarom a szervert
 
-	request := httptest.NewRequest(http.MethodGet, server.URL, nil) //inditok egy uj kerest, amin a GET metodust hivom, a server URL-jen, nil erteku hibaval
-	request.Header.Set("X-Foo", "Mandragora's scream")              //beallitom a Header kulcs-ertek part
-	response, err := server.Client().Do(request)                    //ez a kliensem, ami elkuldi a kerest es visszaadja a valaszt
+	request, err := http.NewRequest(http.MethodGet, server.URL, nil) //inditok egy uj kerest, amin a GET metodust hivom, a server URL-jen, nil erteku hibaval
+	assert.NoError(t, err)
+	request.Header.Set("X-Foo", "Mandragora's scream") //beallitom a Header kulcs-ertek part
+	response, err := server.Client().Do(request)       //ez a kliensem, ami elkuldi a kerest es visszaadja a valaszt
 	assert.NoError(t, err)
 
 	header := request.Header.Get("X-Foo") //a header valtozonak megadom a keres Header X-Foo kulcs ertek parjat erteknek
@@ -99,4 +100,14 @@ func TestBuzz(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, response.StatusCode) //megnezem h a vart statuscodeot kaptam e vissza
 	assert.Equal(t, "foo", response.Header.Get("GET"))  //kell ez?
+}
+
+func TestQHandler(t *testing.T) {
+	handler := &QHandler{}
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	request, err := http.NewRequest(http.MethodGet, server.URL+"/?foo=off&bar=123&baz=hello&baz=world", nil)
+	assert.NoError(t, err)
+
 }
