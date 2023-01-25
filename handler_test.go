@@ -109,5 +109,5 @@ func TestQHandler(t *testing.T) {
 
 	request, err := http.NewRequest(http.MethodGet, server.URL+"/?foo=off&bar=123&baz=hello&baz=world", nil)
 	assert.NoError(t, err)
-
+	_ = request
 }
