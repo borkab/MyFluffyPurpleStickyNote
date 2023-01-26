@@ -72,5 +72,10 @@ func (m Mandragora) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 type QHandler struct{}
 
 func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-
+	foo := r.URL.Query().Get("foo")
+	bar := r.URL.Query().Get("bar")
+	baz := r.URL.Query().Get("baz")
+	if r.Method == "GET" {
+		bs := r.Write([]byte(foo))
+	}
 }
