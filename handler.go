@@ -68,7 +68,7 @@ func (m Mandragora) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 //csinalj egy handlert ami kepes az url query stringekbol kivenni a foo, bar es baz kulcsok ertekeit,
 //es a baz eseten kepes akar tobb erteket is kezelni
-
+/*
 type QHandler struct{}
 
 func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -79,3 +79,4 @@ func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		bs := r.Write([]byte(foo))
 	}
 }
+*/

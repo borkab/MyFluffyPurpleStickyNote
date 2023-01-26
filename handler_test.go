@@ -102,6 +102,7 @@ func TestBuzz(t *testing.T) {
 	assert.Equal(t, "foo", response.Header.Get("GET"))  //kell ez?
 }
 
+/*
 func TestQHandler(t *testing.T) {
 	handler := &QHandler{}
 	server := httptest.NewServer(handler)
@@ -111,3 +112,4 @@ func TestQHandler(t *testing.T) {
 	assert.NoError(t, err)
 	_ = request
 }
+*/
