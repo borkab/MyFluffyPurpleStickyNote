@@ -29,7 +29,7 @@ func JJson(ent, ent2 ExampleStruct) (ExampleStruct, bool, error) {
 
 	err = json.Unmarshal(MEnt, &ent2)
 	errCheck(err)
-	if !reflect.DeepEqual(ent, ent2) {
+	if !reflect.DeepEqual(ent, &ent2) {
 		equal = false
 		err = errors.New("schade marmelade")
 	}
