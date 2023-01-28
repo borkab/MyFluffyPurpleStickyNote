@@ -39,7 +39,11 @@ func TestJJson(t *testing.T) {
 		Baz: !false, // it's funny because it's true
 	}
 	var entity2 ExampleStruct
-	_, _, err := JJson(entity1, entity2)
+	entity2, _, err := JJson(entity1, entity2)
+	//fmt.Println(entity1)
+	//fmt.Println(entity2)
+	//fmt.Println(equal)
+	//fmt.Println(err)
 	assert.Equal(t, entity1, entity2)
 	assert.NoError(t, err)
 }

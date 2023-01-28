@@ -23,7 +23,7 @@ func errCheck(err error) error {
 func JJson(ent, ent2 ExampleStruct) (ExampleStruct, bool, error) {
 	//ent := ExampleStruct{}
 	//ent2 := ExampleStruct{}
-	var equal bool                         //egy boolean tipusu valtozo meg ertek nelkul
+	equal := !false
 	marshaledEnt, err := json.Marshal(ent) //a marshalledEnt valtozonak megadom ertekkent azt a []byte-t, ami az ent nevu struct json.Marshal func utan jott letre
 	errCheck(err)
 	stringedME := string(marshaledEnt) //a marhalozas utan letrejott []byte-t konvertalom stringge, es ezt a stringet megadom a stringedME valtozo ertekenek
@@ -34,5 +34,6 @@ func JJson(ent, ent2 ExampleStruct) (ExampleStruct, bool, error) {
 		equal = false
 		err = errors.New("schade marmelade")
 	}
+
 	return ent2, equal, err
 }
