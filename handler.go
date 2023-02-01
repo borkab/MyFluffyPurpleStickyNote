@@ -68,15 +68,30 @@ func (m Mandragora) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 //csinalj egy handlert ami kepes az url query stringekbol kivenni a foo, bar es baz kulcsok ertekeit,
 //es a baz eseten kepes akar tobb erteket is kezelni
-/*
+//POST /my/path?foo=oof&bar=123&baz=hello&baz=world
+
+//-> your server takes the values out from the query and makes the following:
+//foo -> “off” (string)
+//bar -> 123 (int)
+//baz -> []string{“hello”, “world”}
+
+//GET /my/path?my=query
+//a request object .URl.Query() alatt éred el a parsolt query értékeket
+
+// /*
 type QHandler struct{}
 
 func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+
 	foo := r.URL.Query().Get("foo")
 	bar := r.URL.Query().Get("bar")
 	baz := r.URL.Query().Get("baz")
 	if r.Method == "GET" {
-		bs := r.Write([]byte(foo))
+		_, err := rw.Write([]byte(foo))
+		if err != nil {
+			rw.WriteHeader(http.StatusBadRequest)
+		}
 	}
 }
-*/
+
+//*/
