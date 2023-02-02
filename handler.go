@@ -5,8 +5,10 @@
 package vpostit
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type FluffyHandler struct { //create a handler struct
@@ -82,16 +84,22 @@ func (m Mandragora) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 type QHandler struct{}
 
 func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-
-	foo := r.URL.Query().Get("foo")
+	var myQuerys = make(map[string]any) //letrehozok egy mappot, amiben eltarolom a query string ertekparokat az URL-bol
+	foo := r.URL.Query().Get("foo")     //igy kapom meg a "foo" kulcs ertekparjat a querybol
 	bar := r.URL.Query().Get("bar")
 	baz := r.URL.Query().Get("baz")
-	if r.Method == "GET" {
-		_, err := rw.Write([]byte(foo))
-		if err != nil {
-			rw.WriteHeader(http.StatusBadRequest)
-		}
+
+	intbar, err := strconv.Atoi(bar) //a "bar" kulcs ertekparjat stringbol int-e konvertalom
+	if err != nil {
+		fmt.Println("error converting string to int")
+		return
 	}
+
+	myQuerys["foo"] = foo //hozzaadom a query mappomhoz a kulcs-ertekparokat.
+	myQuerys["bar"] = intbar
+	myQuerys["baz"] = baz
+
+	_, _ = rw.Write([]byte(myQuerys)) //cannot convert a map to a []byte
 }
 
 //*/
