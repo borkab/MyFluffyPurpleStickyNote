@@ -96,6 +96,20 @@ func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	myQ.Bar, _ = strconv.Atoi(r.URL.Query().Get("bar"))
 	myQ.Baz = r.URL.Query().Get("baz")
 
+	_, err := rw.Write([]byte(myQ.Foo))
+	if err != nil {
+		log.Println(err.Error(), err)
+	}
+	_, err = rw.Write([]byte(strconv.Itoa(myQ.Bar)))
+	if err != nil {
+		log.Println(err.Error(), err)
+	}
+
+	_, err = rw.Write([]byte(myQ.Baz))
+	if err != nil {
+		log.Println(err.Error(), err)
+	}
+
 }
 
 //*/
