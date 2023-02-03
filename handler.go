@@ -5,6 +5,7 @@
 package vpostit
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
@@ -90,24 +91,20 @@ type MyQuerysDTO struct {
 
 func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
-	myQ := MyQuerysDTO{}
+	myQ := MyQuerysDTO{} //a myQ valtozonak megadok erteknek egy ures MyQueryDTO tipusu structot
 
-	myQ.Foo = r.URL.Query().Get("foo") //igy kapom meg a "foo" kulcs ertekparjat a querybol
-	myQ.Bar, _ = strconv.Atoi(r.URL.Query().Get("bar"))
+	myQ.Foo = r.URL.Query().Get("foo")                  //igy kapom meg a "foo" kulcs ertekparjat a querybol, es megadom myQ struct Foo nevu field ertekenek
+	myQ.Bar, _ = strconv.Atoi(r.URL.Query().Get("bar")) // mielott megadom field erteknek, at kell alakitanom a querybol kiszedett stringet int-e
 	myQ.Baz = r.URL.Query().Get("baz")
 
-	_, err := rw.Write([]byte(myQ.Foo))
+	bmyQ, err := json.Marshal(myQ)
 	if err != nil {
-		log.Println(err.Error(), err)
-	}
-	_, err = rw.Write([]byte(strconv.Itoa(myQ.Bar)))
-	if err != nil {
-		log.Println(err.Error(), err)
+		log.Fatalln("error:", err.Error())
 	}
 
-	_, err = rw.Write([]byte(myQ.Baz))
+	_, err = rw.Write(bmyQ)
 	if err != nil {
-		log.Println(err.Error(), err)
+		log.Println("error:", err.Error())
 	}
 
 }
