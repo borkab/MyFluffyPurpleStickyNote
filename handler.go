@@ -83,9 +83,9 @@ func (m Mandragora) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 type QHandler struct{}
 
 type MyQuerysDTO struct {
-	Foo string `json:"Foo"`
-	Bar int    `json:"Bar"`
-	Baz string `json:"Baz"`
+	Foo string `json:"foo"`
+	Bar int    `json:"bar"`
+	Baz string `json:"baz"`
 }
 
 func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
