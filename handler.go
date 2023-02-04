@@ -93,12 +93,14 @@ func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	myQ := MyQuerysDTO{} //a myQ valtozonak megadok erteknek egy ures MyQueryDTO tipusu structot
 
+	//u, err := url.Parse()
+
 	myQ.Foo = r.URL.Query().Get("foo")                  //igy kapom meg a "foo" kulcs ertekparjat a querybol, es megadom myQ struct Foo nevu field ertekenek
 	myQ.Bar, _ = strconv.Atoi(r.URL.Query().Get("bar")) // mielott megadom field erteknek, at kell alakitanom a querybol kiszedett stringet int-e
 	strBaz := r.URL.Query().Get("baz")
 	myQ.Baz = append(myQ.Baz, strBaz)
-	strBaz = r.URL.Query().Get("baz")
-	myQ.Baz = append(myQ.Baz, strBaz)
+	//strBaz = r.URL.Query().Get("baz")
+	//myQ.Baz = append(myQ.Baz, strBaz)
 
 	bmyQ, err := json.Marshal(myQ)
 	if err != nil {
