@@ -1,6 +1,7 @@
 package vpostit
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -111,6 +112,17 @@ func TestQHandler(t *testing.T) {
 	assert.NoError(t, err)
 	response, err := server.Client().Do(request)
 	assert.NoError(t, err)
-	assert.Equal(t, response.Body, ??)
+
+	testBody := MyQuerysDTO{
+		Foo: "off",
+		Bar: 123,
+		Baz: "Hello world",
+	}
+
+	var unmarBody MyQuerysDTO
+	bs, err := io.ReadAll(response.Body)
+	assert.NoError(t, err)
+	json.Unmarshal(bs, &unmarBody)
+	assert.Equal(t, unmarBody, testBody)
 
 }
