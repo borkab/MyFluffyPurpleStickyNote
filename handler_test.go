@@ -116,7 +116,7 @@ func TestQHandler(t *testing.T) {
 	testBody := MyQuerysDTO{
 		Foo: "off",
 		Bar: 123,
-		Baz: "Hello world",
+		Baz: []string{"hello", "world"},
 	}
 
 	var unmarBody MyQuerysDTO
