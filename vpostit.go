@@ -19,8 +19,8 @@ type Note struct {
 }
 
 type Info struct {
-	MadeDay  time.Time //date of the birthday of your note
-	UpdateAt time.Time //last change of your note
+	MadeDay  time.Time `json:"MadeDay"` //date of the birthday of your note
+	UpdateAt time.Time `json:"Update"`  //last change of your note
 }
 
 // declaring the repository interface allows us to easily
@@ -34,7 +34,7 @@ type Repository interface {
 
 type InMemoryNoteRepository struct {
 	// MyNotes is a map of a *Note, for easier manipulating as search and delete by ID(key)
-	MyNotes map[string]*Note
+	MyNotes map[string]*Note `json:"MyNotes"`
 }
 
 func (repo *InMemoryNoteRepository) Create(ctx context.Context, NewNote *Note) error {

@@ -97,7 +97,7 @@ func (h QHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	myQ.Foo = r.URL.Query().Get("foo")                  //igy kapom meg a "foo" kulcs ertekparjat a querybol, es megadom myQ struct Foo nevu field ertekenek
 	myQ.Bar, _ = strconv.Atoi(r.URL.Query().Get("bar")) // mielott megadom field erteknek, at kell alakitanom a querybol kiszedett stringet int-e
-	myQ.Baz = r.URL.Query()["baz"]
+	myQ.Baz = r.URL.Query()["baz"]                      //igy az adott parameter minden elemet megkapod. .Get("")-el meg csak az elsot.
 
 	bmyQ, err := json.Marshal(myQ)
 	if err != nil {
