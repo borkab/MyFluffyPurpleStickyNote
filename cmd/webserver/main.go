@@ -7,5 +7,5 @@ import (
 
 func main() {
 
-	http.ListenAndServe(":8080", &vpostit.QHandler{})
+	http.ListenAndServe(":8080", &vpostit.PostitHandler{})
 }

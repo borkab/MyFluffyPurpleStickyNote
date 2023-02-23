@@ -18,13 +18,14 @@ package vpostit
 
 import "net/http"
 
-type postitHandler struct{} //ez a handler
+type PostitHandler struct{} //ez a handler
 
-type ListOfTheNotesDTO struct { //ebben a structban tarolom az osszes noteok listajat
+type ListOfTheNotesDTO struct { //ezek a valaszobjektumok.ebben a structban tarolom az osszes noteok listajat
 	TitlesOfTheNotes []string `json:"titlesOfTheNotes"`
 }
 
-func (ph postitHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request) {
+// ez egy api endpoint programoknak
+func (ph PostitHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request) {
 
 	/*
 		GET /notes
@@ -33,7 +34,7 @@ func (ph postitHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request) {
 		return a json encoded list of note DTO value that represents a list of Note entity
 	*/
 
-	if rq.Method == "GET"+"/notes" {
-		rw.WriteHeader(http.StatusOK)
+	if rq.Method == "GET"+"/" {
+		//
 	}
 }
