@@ -32,7 +32,6 @@ func (ph postitHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request) {
 		return status code 200
 		return a json encoded list of note DTO value that represents a list of Note entity
 	*/
-	savedNotes := InMemoryNoteRepository{} //az osszes elmentett note structja
 
 	if rq.Method == "GET"+"/notes" {
 		rw.WriteHeader(http.StatusOK)
