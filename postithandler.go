@@ -34,7 +34,15 @@ func (ph PostitHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request) {
 		return a json encoded list of note DTO value that represents a list of Note entity
 	*/
 
-	if rq.Method == "GET"+"/" {
-		//
-	}
+	//1. ha a get metodussal hivom, akkor adja vissza az osszes mar letezo note-ot
+	//1.1 ez egy if szerk. amiben megadom neki a feltetelt.
+	//1.2 ha ez a feltetel tesjesul akkor megadom neki h mit csinaljon: irja be a request Bodyba az osszes note-ot
+	//1.3 error handling: ha vmi hibara fut akkor irja ki a hibat
+	// a tesztben csinalni kell olyan lehetoseget, h ures a repo es nem tud visszaadni semmit, h akkor mit csinaljon, meg ha van benne akkor azt adja vissza..
+	//2. ha ez a keres sikeresen lefutott adja vissza a statusOK statuszkodot
+	//2.1 ezt is bele kell irni a fenti if szerkezetbe
+	//2.2 itt is kell a tesztben  error handling: megegyezik e a megkapott statuszkod azzal amit akarok(200)
+	//3. adja vissza a note DTO ertekek json-ban enkodolt listajat ami egy Note entitasok listaja
+	//3.1 a tesztben csinalnom kell nehany note-ot hogy legyen mibol visszaadnia
+	//3.2 json.MArshal()
 }
