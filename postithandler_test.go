@@ -41,7 +41,6 @@ func TestPostitHandler(t *testing.T) {
 		assert.NoError(t, err)
 
 		//add vissza az ures listat ha a repository ures
-		want:= 
 
 	})
 	//when I request the GET method with / path, and notes are located in the repository, then I should get back all the post it note DTOs from the server
