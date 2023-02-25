@@ -22,7 +22,7 @@ return status code 200
 return a json encoded list of note DTO value that represents a list of Note entity
 */
 
-type repo Repository
+type repo NoteRepository
 
 func TestPostitHandler(t *testing.T) {
 	handler := PostitHandler{}            //az en handler structom

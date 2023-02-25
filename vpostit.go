@@ -8,7 +8,7 @@ import (
 //type MyNotes map[string]*Note
 
 // Note represents an online post-it
-type Note struct {
+type Note struct { // TODO: erase json tags and make a NoteDTO instead.
 	Title string `json:"TITLE"` //title of your note
 	Body  string `json:"BODY"`  //your sticky note
 	Info  `json:"INFO"`
@@ -22,7 +22,7 @@ type Info struct {
 
 // declaring the repository interface allows us to easily
 // swap out the actual implementation, enforcing loose coupling.
-type Repository interface {
+type NoteRepository interface {
 	Create(context.Context, *Note) error
 	Update(context.Context, *Note) error
 	FindByID(ctx context.Context, ID string) (_ Note, found bool, _ error)

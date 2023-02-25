@@ -12,6 +12,8 @@ import (
 	"vPOST-it/adapters/memory"
 )
 
+var _ vpostit.NoteRepository = &memory.NoteRepository{}
+
 func TestInMemoryNoteRepository_smoke(t *testing.T) {
 	n1 := vpostit.Note{
 		Title: "Mornings TODO",
