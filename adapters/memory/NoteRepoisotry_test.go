@@ -12,6 +12,8 @@ import (
 	"vPOST-it/adapters/memory"
 )
 
+// _ valtozo tipusa NoteRepository ami egy interface a vpostit packageben.
+// az erteke pedig egy a memory packageben talalhato NoteRepository interfacere mutato pointer
 var _ vpostit.NoteRepository = &memory.NoteRepository{}
 
 func TestInMemoryNoteRepository_smoke(t *testing.T) {

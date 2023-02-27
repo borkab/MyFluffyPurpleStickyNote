@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"sort"
 	"strconv"
-	"vPOST-it"
+	vpostit "vPOST-it"
 )
 
 type NoteRepository struct {
@@ -22,7 +22,7 @@ func (repo *NoteRepository) FindAllNow(ctx context.Context) ([]vpostit.Note, err
 	for _, n := range repo.notes {
 		notes = append(notes, *n)
 	}
-	sort.Slice(notes, func(i, j int) bool {
+	sort.Slice(notes, func(i, j int) bool { //sorba rendezi a note-okat az ID-juk alapjan?
 		return notes[i].ID < notes[j].ID
 	})
 	return notes, nil

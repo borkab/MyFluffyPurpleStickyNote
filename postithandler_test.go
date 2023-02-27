@@ -1,6 +1,7 @@
 package vpostit
 
 import (
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -41,6 +42,16 @@ func TestPostitHandler(t *testing.T) {
 		assert.NoError(t, err)
 
 		//add vissza az ures listat ha a repository ures
+		//ird be a response BOdyba ezt az ures listat
+		var ln ListOfTheNotesDTO
+
+		tn := ln.TitlesOfTheNotes
+
+		_, err = rw.Write([]byte(tn))
+		bs, err := io.ReadAll(response.Body)
+		assert.NoError(t, err)
+		assert.NotEmpty(t, bs)
+		assert.Error(t, response.Body.Close())
 
 	})
 	//when I request the GET method with / path, and notes are located in the repository, then I should get back all the post it note DTOs from the server

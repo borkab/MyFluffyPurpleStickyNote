@@ -5,14 +5,20 @@ import (
 	"time"
 )
 
-//type MyNotes map[string]*Note
+// type MyNotes map[string]*Note
+type NoteDTO struct {
+	reqBody   string `json: "reqBody"`
+	respBody  string `json: "respBody"`
+	ID        string `json: "id"`
+	fromQuery string `json: "fromQuery"`
+}
 
 // Note represents an online post-it
 type Note struct { // TODO: erase json tags and make a NoteDTO instead.
-	Title string `json:"TITLE"` //title of your note
-	Body  string `json:"BODY"`  //your sticky note
-	Info  `json:"INFO"`
-	ID    string `json:"ID"` //a unique identifier for your note
+	Title string //title of your note
+	Body  string //your sticky note
+	Info
+	ID string //a unique identifier for your note
 }
 
 type Info struct {

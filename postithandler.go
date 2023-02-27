@@ -17,7 +17,7 @@ return status code 204 No Content
 package vpostit
 
 import (
-	"io"
+	"context"
 	"log"
 	"net/http"
 )
@@ -43,8 +43,15 @@ func (ph PostitHandler) ServeHTTP(rw http.ResponseWriter, rq *http.Request) {
 	//1.2 ha ez a feltetel tesjesul akkor megadom neki h mit csinaljon: irja be a request Bodyba az osszes note-ot
 	//1.3 error handling: ha vmi hibara fut akkor irja ki a hibat
 	if rq.Method == "GET" {
+		var listOfTheNotes = ListOfTheNotesDTO{} //letrehozok egy valtozot, ami ListOfTheNotesDTO struct tipusu
 
-		_, err := rw.Write([]byte(InMemoryNoteRepository.MyNotes[]))
+		ctx := context.Background() //a ctx valtozo ertekenek megadom a context.Boackground func erteket
+		_, err := (NoteRepository).FindAllNow(listOfTheNotes.TitlesOfTheNotes[], ctx) //talald meg oket
+		if err != nil {
+			log.Println("error", err.Error())
+		}
+		//ird be a Bodyba az osszes noteok listajat
+		_, err = rw.Write([]byte(listOfTheNotes.TitlesOfTheNotes))
 		if err != nil {
 			log.Println("error", err.Error())
 			return
